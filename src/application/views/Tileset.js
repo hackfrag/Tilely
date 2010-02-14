@@ -8,7 +8,7 @@ View.Tileset = new JS.Class(Application_Object, {
 	},
 	setTileset: function(tileset) {
 		this.tileset = tileset;
-		console.log(this.tileset);
+	
 	},
 	reload: function() {
 		$(this._view).empty();
@@ -17,7 +17,7 @@ View.Tileset = new JS.Class(Application_Object, {
 	draw: function() {
 
 		if(!this.tileset) {
-			console.log('no')
+			
 			return this._view;
 		}
 	
