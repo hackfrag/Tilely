@@ -52,10 +52,11 @@ var EditorController = new JS.Class(Application_Controller,{
 		tilesetListView	= new View.TilesetList(this.map.tilesets, UIListViewStyleSelect);
 		tilesetView		= new View.Tileset(this.map.tilesets[0]);
 
-		this.map.subscribe('didAddTileset', function(tileset) {
-			
+		this.map.subscribe('didAddTileset', function(tileset, index) {
+			tilesetListView.setActiveIndex(index);
 			tilesetView.setTileset(tileset);
 			$('#tileset').view().reload();
+			$('#tilesets').view().reload();
 		});
 		
 		tilesetListView.subscribe('selectionDidChange', function(index) {

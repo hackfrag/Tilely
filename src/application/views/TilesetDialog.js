@@ -30,6 +30,7 @@ View.TilesetDialog = new JS.Class(Application_Object, {
 			resizable: false,
 			autoOpen: false,
 			modal: true,
+			width: 550,
 			overlay: {
 				backgroundColor: '#000',
 				opacity: 0.5

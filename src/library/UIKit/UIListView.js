@@ -23,8 +23,8 @@ var UIListView = new  JS.Class(Application_Object, {
 		}
 
 		this.datasource = datasource;
-		this.delegate = this;
-
+		this.delegate 	= this;
+		this.active 	= 0;
 		
 		this._view = $('<div>');
 
@@ -53,15 +53,30 @@ var UIListView = new  JS.Class(Application_Object, {
 				if(self.isSelectAbleAtIndex()) {
 					li.click(function() {
 						self.didSelectedAtIndex(i);
+						$(self._view)
+							.find('li')
+							.removeClass('ui-listview-active');
+						$(this).addClass('ui-listview-active');
+
 					})
 				}
 				li.hover(function() {
-					$(this).addClass('hover');
+					$(this).addClass('ui-listview-hover');
 				},function() {
-					$(this).removeClass('hover');
-				})		
+					$(this).removeClass('ui-listview-hover');
+				})	
+				
+				if(self.isActive(i)) {
+	
+					li.addClass('ui-listview-active');
+				}
+					
+			} else {
+				if(self.isActive(i)) {
+					
+					li.attr('selected','selected');
+				}
 			}
-
 			li.attr('value', i);
 
 			li.appendTo(ul);
@@ -75,6 +90,7 @@ var UIListView = new  JS.Class(Application_Object, {
 			ul.change(function() {
 				self.selectionDidChange($(this).val())
 			})
+			
 		}
 		ul.appendTo(this._view);
 		
@@ -86,10 +102,7 @@ var UIListView = new  JS.Class(Application_Object, {
 				self.orderDidChange(event, ui);
 			});
 		}
-		
-
 	
-
 		return this._view;
 	
 	},
@@ -107,6 +120,9 @@ var UIListView = new  JS.Class(Application_Object, {
 	},
 	didSelectedAtIndex: function(index) {
 		
+	},
+	isActive: function(index) {
+		return false;
 	},
 	reload: function() {
 	

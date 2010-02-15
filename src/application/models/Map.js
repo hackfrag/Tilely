@@ -27,7 +27,8 @@ var Map = new JS.Class(Application_Object, {
 	},
 	addTileset :function(tileset) {
 		this.tilesets.push(tileset);
-		this.notify('didAddTileset', tileset);
+		var index = this.tilesets.length -1;
+		this.notify('didAddTileset', tileset, index);
 	},
 	
 	asXML: function() {
