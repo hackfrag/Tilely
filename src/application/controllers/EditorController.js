@@ -14,6 +14,7 @@ jQuery.require('application/views/TilesetList.js');
 jQuery.require('application/views/LayerList.js');
 jQuery.require('application/views/TilesetDialog.js');
 jQuery.require('application/views/Tileset.js');
+jQuery.require('application/views/OpenDialog.js');
 
 var EditorController = new JS.Class(Application_Controller,{
 
@@ -83,12 +84,18 @@ var EditorController = new JS.Class(Application_Controller,{
 	addLayerAction : function() {
 
 		var layer = new Layer('Ground', this.map.width, this.map.width);
-
+		layer.createEmptyTiles();
+		
 		this.map.addLayer(layer);
 
 		$('#layers').view().reload();
 
 		localStorage.setObject('map', this.map.encode());
+	},
+	openAction: function() {
+		var dialog = new View.OpenDialog();
+	
+		dialog.open();
 	},
 	addTilesetAction: function() {
 		var self = this;

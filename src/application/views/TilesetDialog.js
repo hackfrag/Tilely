@@ -6,7 +6,9 @@ View.TilesetDialog = new JS.Class(Application_Object, {
 		var self = this;
 
 		var fileupload = new UIUpload ({
-			type: /image.*/,
+			type: /.*/,
+			label: 'Drop a image here',
+			returnType: 'dataURL',
 			success: function(file) {
 				var image = $('<img>')
 								.attr('src',file.src);

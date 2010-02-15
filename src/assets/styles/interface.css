@@ -370,7 +370,8 @@ div.cursor div.cursor-tile-inner2 {
 	border:8px dashed #999;
 	cursor:pointer;
 }
-#tileset-filedropzone {
+#tileset-filedropzone,
+#map-filedropzone {
 	height:250px;
 	width:250px;
 	float:left;
@@ -380,7 +381,8 @@ div.cursor div.cursor-tile-inner2 {
 	z-index:1;
 	top:-6000px;
 }
-#tileset-file {
+#tileset-file,
+#map-file  {
 	float:left;
 	margin-left: 10px;
 }

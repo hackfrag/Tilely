@@ -11,7 +11,7 @@ var UIUpload = new JS.Class({
 
 		dropzone
 			.addClass('dropzone')
-			.html('Drop a File here');
+			.html(self.options.label);
 		
 		dropzone.get(0).addEventListener("dragover", function(event) {
 			event.preventDefault();
@@ -28,7 +28,7 @@ var UIUpload = new JS.Class({
 			if (files.length == 1) {
 				var file = files[0];
 				var imageMatch = self.options.type;
-
+			
 				if(file.type.match(imageMatch)) {
 						
 					var reader = new FileReader();
@@ -43,7 +43,20 @@ var UIUpload = new JS.Class({
 	
 						self.options['success'](item);
 					}
-					reader.readAsDataURL(file);
+					switch(self.options['returnType']) {
+						case 'dataURL':
+							reader.readAsDataURL(file);
+							break;
+						case 'text':
+							reader.readAsText(file);
+							break;
+						case 'binary':
+							reader.readAsBinaryString(file);
+							break;
+						default:
+							reader.readAsText(file);
+					}
+					
 
 
 				}

@@ -13,10 +13,16 @@ var Tileset = new JS.Class(Application_Object, {
 		this.tileheight	= tileheight;
 		this.width		= width;
 		this.height		= height
-
+		this.firstgid	= 1;
 		this.spacing	= 1;
 		this.margin		= 0;
 		
+	},
+	setFirstGID: function(gid) {
+		this.firstgid = gid;
+	},
+	getFirstGID: function() {
+		return this.firstgid;
 	},
 	encode: function() {
 	

@@ -1,6 +1,6 @@
 var Tile = new JS.Class({
-	initialize: function() {
-		this.gid = 0;
+	initialize: function(gid) {
+		this.gid = gid;
 	},
 	encode: function() {
 		var tile = {
