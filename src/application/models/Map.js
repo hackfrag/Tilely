@@ -21,11 +21,10 @@ var Map = new JS.Class(Application_Object, {
 		
 	},
 	addLayer : function(layer) {
-	
-		
-
 		this.layers.push(layer);
-		this.notify('didAddLayer', layer);
+
+		var index = this.layers.length -1;
+		this.notify('didAddLayer', layer, index);
 		
 	},
 	addTileset :function(tileset, firstgid) {
@@ -44,11 +43,48 @@ var Map = new JS.Class(Application_Object, {
 	},
 	getLastTilesetGID: function() {
 		if(this.tilesets.length) {
-			var last = parseInt(this.tilesets[this.tilesets.length - 1]);
-			return last.firstgid;
+			var last = this.tilesets[this.tilesets.length-1];
+			return last.getLastGID();
 		} else {
 			return 0;
 		}
+	},
+	getTilesetImageForGID: function(gid) {
+		var image	= $('<img>'),
+			tileset = this.getTilesetForGID(gid);
+
+		return image
+					.attr('src', tileset.image);
+	},
+	getTilesetForGID: function(gid) {
+		var result;
+		this.tilesets.forEach(function(tileset) {
+			if(gid <= tileset.getLastGID()) {
+				result = tileset;
+			}
+		});
+		return result;
+	},
+	getPositionForGID: function(gid) {
+		var tileset = this.getTilesetForGID(gid),
+			localid = 0,
+			width	= 0,
+			height	= 0,
+			x		= 0,
+			y		= 0;
+
+		localid = gid - tileset.firstid;
+
+		width	= this.width / this.tilewidth;
+		height	= this.height / this.tileheight;
+
+		y = Math.ceil(localid / width) - 1;
+		x = localid - ((y - 1) * width) - 1;
+
+		return {
+			'top' : y * this.tileheigt,
+			'left': x * this.tilewidth
+		};
 	},
 	asXML: function() {
 	

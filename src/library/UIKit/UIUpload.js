@@ -24,7 +24,7 @@ var UIUpload = new JS.Class({
 			var files = dt.files;
 
 			e.preventDefault();
-		
+			
 			if (files.length == 1) {
 				var file = files[0];
 				var imageMatch = self.options.type;

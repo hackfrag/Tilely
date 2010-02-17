@@ -18,7 +18,7 @@ View.OpenDialog = new JS.Class(Application_Object, {
 					map = Map.create(file.src);
 					
 					map.tilesets.forEach(function(tileset) {
-						//console.log(tileset);
+						
 					});
 				}
 				
@@ -26,7 +26,6 @@ View.OpenDialog = new JS.Class(Application_Object, {
 		});
 
 
-		$('#map-file').empty();
 
 		$('#map-filedropzone')
 			.empty()
@@ -44,8 +43,8 @@ View.OpenDialog = new JS.Class(Application_Object, {
 			},
 			buttons: {
 				'Load Map': function() {
-
-				
+					
+					self.notify('mapDidLoad', map);
 
 				  	$(this).dialog('close');
 				},

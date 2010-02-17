@@ -6,6 +6,8 @@ var MapController = new JS.Class(Application_Controller,{
 	},
 	createAction: function(){
 		
+		
+		
 		$("#newMap-dialog").dialog({
 			bgiframe: true,
 			resizable: false,
@@ -17,10 +19,13 @@ var MapController = new JS.Class(Application_Controller,{
 			},
 			buttons: {
 				'Create map': function() {
-
-					var map = new Map(5,5,32,32);
-
+					var width	= $('#newMap-width').val(),
+						height	= $('#newMap-height').val();
+						
+					var map = new Map(width, height ,32,32);
+					
 					var fc = Application_Controller_Front.getInstance();
+					console.log(map);
 					fc.post('editor/load', {'map' : map});
 
 				  	$(this).dialog('close');

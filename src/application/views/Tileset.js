@@ -55,17 +55,20 @@ View.Tileset = new JS.Class(Application_Object, {
 					$('div.tileset').find('div.tile').removeClass('ui-selected');
 					$(this).addClass('ui-selected');
 
-					var x = Math.floor($(this).position().left / 32),
-						y = Math.floor($(this).position().top / 32);
+					var x = Math.floor($(this).position().left / parseInt(self.tileset.tilewidth)),
+						y = Math.floor($(this).position().top / parseInt(self.tileset.tileheight)),
+						maxX = self.tileset.width / parseInt(self.tileset.tilewidth),
+						maxY = self.tileset.height / parseInt(self.tileset.tileheight);
 					
 					self.selected = [{
 						left: $(this).position().left,
 						top: $(this).position().top,
 						'x': x,
 						'y': y,
+						gid: ((y * maxX) + (x + 1) + (self.tileset.firstgid -1)),
 						dom: $(this)
 					}];
-
+					
 					self.notify('afterTileSelected', self.selected, {width: 1, height: 1});
 
 				})
@@ -84,13 +87,16 @@ View.Tileset = new JS.Class(Application_Object, {
 			selected: function(event, ui) {
 
 				var x = $(ui.selected).position().left / 32,
-					y = $(ui.selected).position().top / 32;
+					y = $(ui.selected).position().top / 32,
+					maxX = self.tileset.width / parseInt(self.tileset.tilewidth),
+					maxY = self.tileset.height / parseInt(self.tileset.tileheight);
 
 				self.selected.push({
 					left: $(ui.selected).position().left,
 					top: $(ui.selected).position().top,
 					'x': x,
-					'y': y
+					'y': y,
+					gid: ((y * maxX) + (x + 1) + (self.tileset.firstgid -1)),
 				
 				});
 

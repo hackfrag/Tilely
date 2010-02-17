@@ -9,10 +9,10 @@ var Tileset = new JS.Class(Application_Object, {
 		this.firstgid	= 0;
 		this.image		= image;
 		this.name		= name;
-		this.tilewidth	= tilewidth;
-		this.tileheight	= tileheight;
-		this.width		= width;
-		this.height		= height
+		this.tilewidth	= parseInt(tilewidth);
+		this.tileheight	= parseInt(tileheight);
+		this.width		= parseInt(width);
+		this.height		= parseInt(height);
 		this.firstgid	= 1;
 		this.spacing	= 1;
 		this.margin		= 0;
@@ -23,6 +23,9 @@ var Tileset = new JS.Class(Application_Object, {
 	},
 	getFirstGID: function() {
 		return this.firstgid;
+	},
+	getLastGID: function() {
+		return (this.width / this.tilewidth) * (this.height / this.tileheight);
 	},
 	encode: function() {
 	

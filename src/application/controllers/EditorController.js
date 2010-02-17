@@ -53,6 +53,10 @@ var EditorController = new JS.Class(Application_Controller,{
 		tilesetListView	= new View.TilesetList(this.map.tilesets, UIListViewStyleSelect);
 		tilesetView		= new View.Tileset(this.map.tilesets[0]);
 
+		this.map.subscribe('didAddLayer', function(tileset, index) {
+			$('#main').view().redraw();
+		});
+
 		this.map.subscribe('didAddTileset', function(tileset, index) {
 			tilesetListView.setActiveIndex(index);
 			tilesetView.setTileset(tileset);
@@ -66,6 +70,11 @@ var EditorController = new JS.Class(Application_Controller,{
 		})
 
 		tilesetView.subscribe('afterTilesSelected', function(selected, size) {
+			console.log(selected);
+			cursorView.setSize(size.width, size.height);
+		})
+		tilesetView.subscribe('afterTileSelected', function(selected, size) {
+			console.log(selected);
 			cursorView.setSize(size.width, size.height);
 		})
 
@@ -94,7 +103,12 @@ var EditorController = new JS.Class(Application_Controller,{
 	},
 	openAction: function() {
 		var dialog = new View.OpenDialog();
-	
+		
+		dialog.subscribe('mapDidLoad', function(map) {
+			var fc = Application_Controller_Front.getInstance();
+			fc.post('editor/load', {'map' : map});
+		});
+		
 		dialog.open();
 	},
 	addTilesetAction: function() {
