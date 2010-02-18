@@ -25,7 +25,9 @@ var Tileset = new JS.Class(Application_Object, {
 		return this.firstgid;
 	},
 	getLastGID: function() {
-		return (this.width / this.tilewidth) * (this.height / this.tileheight);
+		return this.firstgid + 
+				(this.width / this.tilewidth) * (this.height / this.tileheight)
+				- 1;
 	},
 	encode: function() {
 	

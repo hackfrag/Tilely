@@ -6088,7 +6088,7 @@ jQuery.extend({
 		length 		= scripts.length;
 		$.ajaxSetup({async: false});
 		jQuery.each(scripts, function(satisfied, script) {
-
+			
 			script = typeof script === "string" ? { src: script } : script;
 
 			cache[script.src] = findOrMake(script.src);
@@ -6106,10 +6106,12 @@ jQuery.extend({
 				}
 
 			});
-
+			if(!jQuery.scriptPath) {
+				jQuery.scriptPath = '';
+			}
 			if (satisfied !== false) {
 
-				jQuery.getScript(script.src, function() {
+				jQuery.getScript(jQuery.scriptPath + script.src, function() {
 					cache[script.src].loaded = true;
 					for (var name in cache[script.src].queue) {
 						jQuery.require(cache[script.src].queue[name], callback);
