@@ -95,4 +95,4 @@ Application_Controller_Front.extend({
 			return Application_Controller_Front.instance;
 		}
 	}
-})
+});

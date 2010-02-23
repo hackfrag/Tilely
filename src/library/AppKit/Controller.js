@@ -24,4 +24,4 @@ var Application_Controller = new JS.Class({
 	postDispatch : function() {
 		
 	}
-})
+});

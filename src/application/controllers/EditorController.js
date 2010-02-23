@@ -291,4 +291,4 @@ var EditorController = new JS.Class(Application_Controller,{
 	layerOrderDidChanged: function () {
 		
 	}
-})
+});

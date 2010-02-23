@@ -57,4 +57,4 @@ var UIUpload = new JS.Class({
 		return dropzone;
 		
 	}
-})
+});

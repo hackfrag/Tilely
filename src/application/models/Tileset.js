@@ -64,4 +64,4 @@ var Tileset = new JS.Class(Application_Object, {
 
 		return tileset;
 	}
-})
+});

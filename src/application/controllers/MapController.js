@@ -43,4 +43,4 @@ var MapController = new JS.Class(Application_Controller,{
 		$("#newMap-dialog").dialog('open');
 
 	}
-})
+});

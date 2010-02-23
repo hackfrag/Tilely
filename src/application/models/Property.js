@@ -8,4 +8,4 @@ var Property = JS.Class({
 		this.value = value;
 	}
 
-})
+});

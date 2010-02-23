@@ -46,4 +46,4 @@ var Layer = new JS.Class({
 		});
 		return layer;
 	}
-})
+});

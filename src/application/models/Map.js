@@ -253,4 +253,4 @@ Map.extend({
 		return map;
 		
 	}
-})
+});

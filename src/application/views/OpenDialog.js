@@ -51,4 +51,4 @@ View.OpenDialog = new JS.Class(Application_Object, {
 	open: function() {
 		$("#editor-openMap-dialog").dialog('open');
 	}
-})
+});

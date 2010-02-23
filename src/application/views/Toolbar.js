@@ -69,4 +69,4 @@ View.Toolbar = {
 
 
 	}
-}
+};

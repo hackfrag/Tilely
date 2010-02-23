@@ -56,4 +56,4 @@ View.TilesetDialog = new JS.Class(Application_Object, {
 		});
 		$("#editor-addTileset-dialog").dialog('open');
 	}
-})
+});

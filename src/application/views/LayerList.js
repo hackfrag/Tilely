@@ -98,4 +98,4 @@ View.LayerList = new JS.Class(UIListView, {
 	isActive: function(index) {
 		return (this.active == index);
 	}
-})
+});
