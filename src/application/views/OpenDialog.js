@@ -7,12 +7,11 @@ View.OpenDialog = new JS.Class(Application_Object, {
 	
 		var map;
 		
-		var fileupload = new UIUpload ({
+		new UIUpload ({
 			type: /.*/,
-			label: 'Drop a map file here',
+			selector: '#map-filedropzone',
 			returnType: 'text',
 			success: function(file) {
-				console.log(file);
 				
 				if(file.type  == "text/xml") {
 					map = Map.create(file.src);
@@ -25,11 +24,6 @@ View.OpenDialog = new JS.Class(Application_Object, {
 			}
 		});
 
-
-
-		$('#map-filedropzone')
-			.empty()
-			.append(fileupload);
 
 		$("#editor-openMap-dialog").dialog({
 			bgiframe: true,

@@ -66,33 +66,31 @@
 
 		<div class="dialog" id="newMap-dialog" title="Create a new map">
 			<form>
-				<fieldset>
-					<label for="width">Width</label>
-					<input type="text" name="width" id="newMap-width" class="text ui-widget-content ui-corner-all" size="20" value="19">
-					<label for="height">Height</label>
-					<input type="text" name="height" id="newMap-height"  class="text ui-widget-content ui-corner-all" size="20" value="14">
-				</fieldset>
+				<label for="width">Width</label>
+				<input type="text" name="width" id="newMap-width" class="text ui-widget-content ui-corner-all" size="20" value="19">
+				<label for="height">Height</label>
+				<input type="text" name="height" id="newMap-height"  class="text ui-widget-content ui-corner-all" size="20" value="14">
 			</form>
 		</div>
 	<div class="dialog" id="editor-addTileset-dialog" title="Add a new Tileset">
 		<form>
-			<fieldset>
-				<label for="name">Name</label>
-				<input type="text" name="name" id="editor-addTileset-name" class="text ui-widget-content ui-corner-all" size="20" value="19">
-				<div id="tileset-filedropzone">
-					
-				</div>
-				<div id="tileset-file">
-					
-				</div>
-			</fieldset>
+		
+			<label for="name">Name</label>
+			<input type="text" name="name" id="editor-addTileset-name" class="text ui-widget-content ui-corner-all" size="20" value="19">
+			<label for="name">Tileset</label>
+			<input type="file" name="tileset-filedropzone" id="tileset-filedropzone" class="text ui-widget-content ui-corner-all" size="20" value="19">
+
+			<div id="tileset-file">
+
+			</div>
+		
 		</form>
 	</div>
 	<div class="dialog" id="editor-openMap-dialog" title="Open a map">
 		
-				<div id="map-filedropzone">
-					
-				</div>
+				<label for="name">Mapfile</label>
+				<input type="file" name="map-filedropzone" id="map-filedropzone" class="text ui-widget-content ui-corner-all" size="20" value="19">
+				
 				<div id="map-file">
 					<dl class="list">
 						<dt>Name:</dt>
@@ -102,13 +100,7 @@
 						<dt>Tilesize:</dt>
 						<dd>32 x 32</dd>
 					</dl>
-					<div class="clean">&nbsp;</div>
-					<ul class="list">
-						<li>
-							<span class="checkmark">&nbsp;</span>
-							<span class="text">desert.png</span>
-						</li>
-					</ul>
+				
 				</div>
 			
 	</div>

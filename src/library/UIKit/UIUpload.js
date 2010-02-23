@@ -6,23 +6,14 @@ var UIUpload = new JS.Class({
 		this.options = options;
 
 		var self = this,
-			dropzone = $('<div>'),
+			dropzone = $(options.selector),
 			item;
+			
 
-		dropzone
-			.addClass('dropzone')
-			.html(self.options.label);
+		dropzone.get(0).addEventListener("change", function(e) {
+
+			var files = this.files;
 		
-		dropzone.get(0).addEventListener("dragover", function(event) {
-			event.preventDefault();
-		}, true);
-		dropzone.get(0).addEventListener("drop", function(e) {
-
-			e.preventDefault();
-
-			var dt = e.dataTransfer;
-			var files = dt.files;
-
 			e.preventDefault();
 			
 			if (files.length == 1) {

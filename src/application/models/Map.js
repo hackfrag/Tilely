@@ -17,7 +17,10 @@ var Map = new JS.Class(Application_Object, {
 		this.layers			= [];
 		this.tilesets		= [];
 
-		
+		this.cache			= {
+			tileset : {},
+			image	: {}
+		};
 		
 	},
 	addLayer : function(layer) {
@@ -51,23 +54,35 @@ var Map = new JS.Class(Application_Object, {
 		}
 	},
 	getTilesetImageForGID: function(gid) {
-		var image	= $('<img>'),
-			tileset = this.getTilesetForGID(gid);
+		var image	= new Image(),
+			tileset = this.getTilesetForGID(gid),
+			cache	= this.cache.image[tileset.name];
+	
+		if(!cache) {
+			image.src = tileset.image;
+			this.cache.image[tileset.name] = image;
+		}
 
-		return image
-					.attr('src', tileset.image);
+		return this.cache.image[tileset.name];
+
 	},
 	getTilesetForGID: function(gid) {
-		var result;
-		var found = false;
-		this.tilesets.forEach(function(tileset) {
-	
-			if(gid <= tileset.getLastGID() && !found) {
-				result = tileset;
-				found = true;
-			}
-		});
-		return result;
+		var result,
+			cache	= this.cache.image[gid],
+			self	= this,
+			found	= false;
+		
+		if(!this.cache.image[gid]) {
+			this.tilesets.forEach(function(tileset) {
+
+				if(gid <= tileset.getLastGID() && !found) {
+					result = tileset;
+					self.cache.image[gid] = tileset;
+					found = true;
+				}
+			});
+		}
+		return this.cache.image[gid];
 	},
 	getPositionForGID: function(gid) {
 		var tileset = this.getTilesetForGID(gid),
@@ -89,9 +104,30 @@ var Map = new JS.Class(Application_Object, {
 		x = localid - ((y ) * width) - 1;
 	
 		return {
-			'top' : y * this.tileheight,
-			'left': x * this.tilewidth
+			'top'	: y * this.tileheight,
+			'left'	: x * this.tilewidth,
+			'y'		: y,
+			'x'		: x
 		};
+	},
+	setTile: function(layerIndex, tileIndex, gid) {
+		this.layers[layerIndex].tiles[tileIndex].gid = gid;
+	},
+
+	indexToCords: function(index) {
+		var x = 0,
+			y = 0;
+
+		y = Math.ceil(index / this.width) - 1;
+		x = index - ((y ) * this.width) - 1;
+
+		return {
+			'x' : x,
+			'y'	: y
+		};
+	},
+	cordsToIndex: function(x, y) {
+		return ((y * this.width) + (x + 1));
 	},
 	asXML: function() {
 	
@@ -118,6 +154,7 @@ var Map = new JS.Class(Application_Object, {
 		};
 
 		this.layers.forEach(function(layer) {
+			
 			map.layers.push(layer.encode());
 		});
 		this.tilesets.forEach(function(tileset) {
@@ -133,10 +170,17 @@ Map.extend({
 	load: function(data) {
 		var map = new Map(data.width, data.height,data.tilewidth, data.tileheight),
 			layer,
-			tileset
+			tileset,
+			tile;
 
 		data.layers.forEach(function(item) {
 			layer = new Layer(item.name, item.width, item.height);
+			item.tiles.forEach(function(data){
+			
+				tile = new Tile(data.gid);
+
+				layer.addTile(tile);
+			});
 
 			map.addLayer(layer);
 		});

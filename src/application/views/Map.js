@@ -13,7 +13,8 @@ View.Map = new JS.Class(Application_Object, {
 			height,
 			canvas,
 			image, position,
-			self = this;
+			self = this,
+			cords;
 
 		width = this.map.width * this.map.tilewidth;
 		height =  this.map.height * this.map.tileheight;
@@ -42,11 +43,30 @@ View.Map = new JS.Class(Application_Object, {
 							.addClass('canvas');
 
 			canvas = canvasTag.get(0).getContext("2d");
-			console.log(layer);
-			layer.tiles.forEach(function(tile, j) {
-				position = self.map.getPositionForGID(tile.gid);
+			
+			layer.tiles.forEach(function(tile, i) {
+				if(tile.gid !== 0) {
+					
+					position = self.map.getPositionForGID(tile.gid);
+					image	 = self.map.getTilesetImageForGID(tile.gid);
+					cords	 = self.map.indexToCords(i);
+					
+					canvas.drawImage(image,
+							Math.abs(position.left),
+							Math.abs(position.top),
+							32,
+							32,
+							cords.x * 32,
+							cords.y * 32,
+							32,
+							32
+						)
+
+				}
+
+
+
 				
-				image	 = self.map.getTilesetImageForGID(tile.gid);
 			});
 
 			container.append(canvasTag);
@@ -60,8 +80,8 @@ View.Map = new JS.Class(Application_Object, {
 	},
 	setCursor : function(cursor) {
 		
-		cursor.setEvents($(this._map).find('div.map-container'));
-		$(this._map).find('div.map-container').append(
+		cursor.setEvents($(this._map));
+		$(this._map).append(
 			cursor.draw()
 		)
 

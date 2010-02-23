@@ -25,20 +25,38 @@ var EditorController = new JS.Class(Application_Controller,{
 
 	},
 	indexAction: function() {
-		var mapData = localStorage.getObject('map');
-
+		var mapData = sessionStorage.getObject('map');
 		if(mapData) {
 			var map = Map.load(mapData);
 			this.post('editor/load', {'map' : map});
 		}
+		/*
+		 *
+		 var worker	= new  Worker("application/workers/json.js"),
+			self	= this;
+
+		worker.onmessage = function(e){
+
+			if(e.data) {
+				var map = Map.load(e.data);
+				self.post('editor/load', {'map' : map});
+			}
+
+		};
+
+		worker.postMessage({
+			action	: 'load',
+			param	: sessionStorage.map
+		});
+		 */
 	},
 	loadAction: function(){
 		this.map  = this.request.map;
 
 		$('#sidebar-disabled').hide();
 
-
-
+		
+		worker.postMessage("start");
 		var mapView,
 			cursorView,
 			layerListView,
@@ -63,18 +81,26 @@ var EditorController = new JS.Class(Application_Controller,{
 			$('#tileset').view().reload();
 			$('#tilesets').view().reload();
 		});
+
+		cursorView.subscribe('click', function(position) {
+			var index = self.map.cordsToIndex(position.x, position.y);
 		
+			self.map.setTile(0, index, 1);
+			$('#main').view().redraw();
+			sessionStorage.setObject('map', self.map.encode());
+		});
+
 		tilesetListView.subscribe('selectionDidChange', function(index) {
 			tilesetView.setTileset(self.map.tilesets[index]);
 			$('#tileset').view().reload();
 		})
 
 		tilesetView.subscribe('afterTilesSelected', function(selected, size) {
-			console.log(selected);
+
 			cursorView.setSize(size.width, size.height);
 		})
 		tilesetView.subscribe('afterTileSelected', function(selected, size) {
-			console.log(selected);
+
 			cursorView.setSize(size.width, size.height);
 		})
 
@@ -87,7 +113,7 @@ var EditorController = new JS.Class(Application_Controller,{
 		mapView.setCursor(cursorView);
 
 		
-		localStorage.setObject('map', this.map.encode());
+		sessionStorage.setObject('map', this.map.encode());
 
 	},
 	addLayerAction : function() {
@@ -99,7 +125,7 @@ var EditorController = new JS.Class(Application_Controller,{
 
 		$('#layers').view().reload();
 
-		localStorage.setObject('map', this.map.encode());
+		sessionStorage.setObject('map', this.map.encode());
 	},
 	openAction: function() {
 		var dialog = new View.OpenDialog();
@@ -123,7 +149,7 @@ var EditorController = new JS.Class(Application_Controller,{
 		
 			self.map.addTileset(tileset);
 			$('#tilesets').view().reload();
-			localStorage.setObject('map', self.map.encode());
+			sessionStorage.setObject('map', self.map.encode());
 		});
 
 	}

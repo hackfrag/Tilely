@@ -5,9 +5,9 @@ View.TilesetDialog = new JS.Class(Application_Object, {
 
 		var self = this;
 
-		var fileupload = new UIUpload ({
+		new UIUpload ({
 			type: /.*/,
-			label: 'Drop a image here',
+			selector: '#tileset-filedropzone',
 			returnType: 'dataURL',
 			success: function(file) {
 				var image = $('<img>')
@@ -23,9 +23,7 @@ View.TilesetDialog = new JS.Class(Application_Object, {
 
 		$('#tileset-file').empty();
 
-		$('#tileset-filedropzone')
-			.empty()
-			.append(fileupload);
+
 
 		$("#editor-addTileset-dialog").dialog({
 			bgiframe: true,

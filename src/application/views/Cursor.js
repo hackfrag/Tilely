@@ -59,7 +59,7 @@ View.Cursor = new JS.Class(Application_Object, {
 		.mousemove(function(event) {
 			self.mouse.moving = true;
 			if (self.mouse.down && !self.isHidden) {;
-				self.notify('click');
+				self.notify('click', self.getPosition());
 			}
 		})
 		.mouseout(function(event) {
@@ -67,7 +67,7 @@ View.Cursor = new JS.Class(Application_Object, {
 		})
 		.mousedown(function(event) {
 			self.mouse.down = true;
-			self.notify('click');
+			self.notify('click', self.getPosition());
 		})
 		.mouseup(function(event) {
 			self.mouse.down = false;
@@ -114,7 +114,7 @@ View.Cursor = new JS.Class(Application_Object, {
 	getPosition : function() {
 		return {
 			x: this._cursor.position().left / 32,
-			y: this._cursor.position().top / 32,
+			y: this._cursor.position().top / 32
 		}
 	},
 	getSize : function() {

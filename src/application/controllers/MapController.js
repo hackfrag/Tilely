@@ -23,9 +23,12 @@ var MapController = new JS.Class(Application_Controller,{
 						height	= $('#newMap-height').val();
 						
 					var map = new Map(width, height ,32,32);
-					
+
+
+					sessionStorage.setObject('map', null);
+
 					var fc = Application_Controller_Front.getInstance();
-					console.log(map);
+			
 					fc.post('editor/load', {'map' : map});
 
 				  	$(this).dialog('close');
