@@ -23,7 +23,11 @@ View.Map = new JS.Class(Application_Object, {
 			var map = $('<div class="map">'),
 				container = $('<div class="map-container">'),
 				overlay = $('<div class="overlay">');
-				
+
+			map
+				.width(width)
+				.height(height)
+
 			container
 				.width(width)
 				.height(height)
@@ -75,6 +79,38 @@ View.Map = new JS.Class(Application_Object, {
 
 		return this._map;
 	},
+	changeLayerVisibility: function(index, flag) {
+		var canvasTag = $('#layer-' +index);
+
+		if(flag) {
+			canvasTag.show();
+		} else {
+			canvasTag.hide();
+		}
+	},
+	setTileAtCords: function(layerIndex, x, y, gid) {
+		var canvasTag = $('#layer-' +layerIndex),
+			canvas,
+			position,
+			image;
+			
+			
+		canvas = canvasTag.get(0).getContext("2d");
+
+		position = this.map.getPositionForGID(gid);
+		image	 = this.map.getTilesetImageForGID(gid);
+	
+		canvas.drawImage(image,
+							Math.abs(position.left),
+							Math.abs(position.top),
+							32,
+							32,
+							x * 32,
+							y * 32,
+							32,
+							32
+						)
+	},
 	redraw: function() {
 		this.draw();
 	},
@@ -84,6 +120,7 @@ View.Map = new JS.Class(Application_Object, {
 		$(this._map).append(
 			cursor.draw()
 		)
+		return this;
 
 	}
 

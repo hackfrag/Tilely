@@ -15,31 +15,40 @@ jQuery.require('application/views/LayerList.js');
 jQuery.require('application/views/TilesetDialog.js');
 jQuery.require('application/views/Tileset.js');
 jQuery.require('application/views/OpenDialog.js');
+jQuery.require('application/views/Toolbar.js');
 
 var EditorController = new JS.Class(Application_Controller,{
 
-	map : {},
-	
 	init: function() {
-	
+		
+		this.map	= {};
+		this.layer	= 0;
+		this.tileset= 0;
+		this.cursor = '';
 
+		
 	},
+	
 	indexAction: function() {
+
+		View.Toolbar.init();
+		
 		var mapData = sessionStorage.getObject('map');
 		if(mapData) {
 			var map = Map.load(mapData);
 			this.post('editor/load', {'map' : map});
 		}
+	
 		/*
 		 *
 		 var worker	= new  Worker("application/workers/json.js"),
-			self	= this;
+			$this	= this;
 
 		worker.onmessage = function(e){
 
 			if(e.data) {
 				var map = Map.load(e.data);
-				self.post('editor/load', {'map' : map});
+				$this.post('editor/load', {'map' : map});
 			}
 
 		};
@@ -52,80 +61,62 @@ var EditorController = new JS.Class(Application_Controller,{
 	},
 	loadAction: function(){
 		this.map  = this.request.map;
-
+		
 		$('#sidebar-disabled').hide();
 
 		
 		
 		var mapView,
-			cursorView,
 			layerListView,
 			tilesetListView,
 			tilesetView,
-			self = this;
+			$this = this;
 
 	
-		cursorView		= new View.Cursor(1, 1, this.map.tilewidth, this.map.tileheight);
+		this.cursor		= new View.Cursor(1, 1, this.map.tilewidth, this.map.tileheight);
 		mapView			= new View.Map(this.map);
 		layerListView	= new View.LayerList(this.map.layers);
 		tilesetListView	= new View.TilesetList(this.map.tilesets, UIListViewStyleSelect);
 		tilesetView		= new View.Tileset(this.map.tilesets[0]);
+	
 
-		this.map.subscribe('didAddLayer', function(tileset, index) {
-			$('#main').view().redraw();
-		});
+		this.layer = 0;
+		layerListView
+			.setActiveIndex(0)
+			.setDelegate(this);
 
-		this.map.subscribe('didAddTileset', function(tileset, index) {
-			tilesetListView.setActiveIndex(index);
-			tilesetView.setTileset(tileset);
-			$('#tileset').view().reload();
-			$('#tilesets').view().reload();
-		});
+		tilesetListView.setDelegate(this);
 
-		cursorView.subscribe('click', function(position) {
-			var index = self.map.cordsToIndex(position.x, position.y);
-		
-			self.map.setTile(0, index, 1);
-			$('#main').view().redraw();
-			sessionStorage.setObject('map', self.map.encode());
-		});
+		this.map.setDelegate(this);
 
-		tilesetListView.subscribe('selectionDidChange', function(index) {
-			tilesetView.setTileset(self.map.tilesets[index]);
-			$('#tileset').view().reload();
-		})
+		this.cursor.setRole('stamp');
+		this.cursor.setDelegate(this);
 
-		tilesetView.subscribe('afterTilesSelected', function(selected, size) {
+		tilesetView.setDelegate(this);
 
-			cursorView.setSize(size.width, size.height);
-		})
-		tilesetView.subscribe('afterTileSelected', function(selected, size) {
+		$('#layers')	.addView(layerListView);
+		$('#tilesets')	.addView(tilesetListView);
+		$('#tileset')	.addView(tilesetView);
+		$('#main')		.addView(mapView);
 
-			cursorView.setSize(size.width, size.height);
-		})
-
-		$('#layers').addView(layerListView);
-		$('#tilesets').addView(tilesetListView);
-		$('#tileset').addView(tilesetView);
-		
-		$('#main').addView(mapView);
-
-		mapView.setCursor(cursorView);
-
+		mapView.setCursor(this.cursor);
 		
 		sessionStorage.setObject('map', this.map.encode());
 
 	},
 	addLayerAction : function() {
-
-		var layer = new Layer('Ground', this.map.width, this.map.width);
+		
+		var layer = new Layer('Layer', this.map.width, this.map.width);
 		layer.createEmptyTiles();
 		
 		this.map.addLayer(layer);
 
-		$('#layers').view().reload();
 
+
+		$('#layers').view().reload();
+	
 		sessionStorage.setObject('map', this.map.encode());
+	
 	},
 	openAction: function() {
 		var dialog = new View.OpenDialog();
@@ -138,20 +129,166 @@ var EditorController = new JS.Class(Application_Controller,{
 		dialog.open();
 	},
 	addTilesetAction: function() {
-		var self = this;
-
-		var dialog = new View.TilesetDialog ();
-
+	
+		var $this	= this,
+			dialog	= new View.TilesetDialog ();
+	
 		dialog.subscribe('tilesetDidAdd', function(name, image, width, height) {
 			
 			var tileset = new Tileset(name, image, width, height, 32, 32);
 			
 		
-			self.map.addTileset(tileset);
-			$('#tilesets').view().reload();
-			sessionStorage.setObject('map', self.map.encode());
+			$this.map.addTileset(tileset);
+			
+			
+			sessionStorage.setObject('map', $this.map.encode());
 		});
 
-	}
+	},
+	changeCursorRoleAction: function() {
+		this.cursor.setRole(this.request.role);
+	},
+
+	///////////////////////////////////////////////////////////////////////////
+	/**
+	 * Delegates
+	 */
+	didSelectLayerAtIndex: function(layer, index) {
+		this.layer = index;
+	},
 	
+	didAddLayer: function(layer, index) {
+
+		$('#main')
+			.view()
+			.redraw();
+
+		$('#layers')
+			.view()
+			.setActiveIndex(index);
+		this.layer = index;
+
+	},
+	didAddTileset : function(tileset, index) {
+
+		$('#tileset')
+			.view()
+			.setTileset(tileset)
+			.reload();
+			
+		$('#tilesets')
+			.view()
+			.setActiveIndex(index)
+			.reload();
+	},
+	cursorClicked: function(size, position, pattern) {
+
+	
+		
+		var tiles	= [],
+			$this	= this;
+		
+		switch(this.cursor.role) {
+			case 'stamp':
+			
+
+				var widthCount = 0,
+					heightCount = 0;
+
+
+				if(pattern.length == 1) {
+					tiles.push({
+						layer	: $this.layer,
+						x		: position.x,
+						y		: position.y,
+						gid		: pattern[0].gid
+					});
+				} else {
+					pattern.forEach(function(item, i) {
+						if(size.height > heightCount) {
+							tiles.push({
+								layer	: $this.layer,
+								x		: (position.x + widthCount),
+								y		: (position.y + heightCount),
+								gid		: item.gid
+							});
+
+							heightCount+=1;
+
+						} else {
+							heightCount=0;
+							widthCount+=1;
+							
+							tiles.push({
+								layer	: $this.layer,
+								x		: (position.x + widthCount),
+								y		: (position.y + heightCount),
+								gid		: item.gid
+							});
+
+							heightCount+=1;
+						}
+
+					})
+
+				}
+
+				break;
+			case 'bucket':
+				
+				for(var i = 0; i < $this.map.width; i++) {
+					for(var j = 0; j < $this.map.height; j++) {
+					
+						tiles.push({
+							layer	: $this.layer,
+							x		: i,
+							y		: j,
+							gid		: pattern[0].gid
+						});
+
+					}
+				}
+
+				break;
+			case 'eraser':
+			
+				break;
+		}
+		
+		tiles.forEach(function(tile, i) {
+			$this.map.setTileAtCords(tile.layer, tile.x, tile.y, tile.gid);
+			$('#main').view().setTileAtCords(tile.layer, tile.x, tile.y, tile.gid);
+		});
+
+		//sessionStorage.setObject('map', $this.map.encode());
+	
+	},
+	tilesetSelectionDidChange: function(index) {
+
+		$('#tileset')
+			.view()
+			.setTileset(this.map.tilesets[index])
+			.reload();
+	},
+	afterTilesSelected: function(pattern, size) {
+		this.cursor.setPattern(pattern);
+		this.cursor.setSize(size.width, size.height);
+	},
+	afterTileSelected: function(pattern, size) {
+		this.cursor.setPattern(pattern);
+		this.cursor.setSize(size.width, size.height);
+	},
+	layerStatusDidChanged: function(index, status) {
+		
+		$('#main')
+			.view()
+			.changeLayerVisibility(index, status)
+	},
+	layerNameDidChanged: function(name, index) {
+		this.map.layers[index].name = name;
+		$('#layers').view().reload();
+	},
+	layerOrderDidChanged: function () {
+		
+	}
 })

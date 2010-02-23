@@ -1,16 +1,13 @@
 var Layer = new JS.Class({
 
-	name : '',
-	properties: [],
-	tiles: [],
-	width: 5,
-	height: 5,
-	
+
 	initialize: function(name, width, height) {
 
-		this.name	= name;
-		this.width	= width;
-		this.height = height;
+		this.name		= name;
+		this.width		= width;
+		this.height		= height;
+		this.properties = [];
+		this.tiles		= [];
 
 	},
 	addTile: function(tile) {

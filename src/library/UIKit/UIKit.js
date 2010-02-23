@@ -13,8 +13,7 @@ var UIKit = {
 		if(!this.dom) {
 			this.dom = $(document);
 		}
-	
-		this.buttons();
+
 		this.slider();
 		this.sortable();
 		this.layout();
@@ -46,18 +45,6 @@ var UIKit = {
 			$(item).height(height);
 			$(item).width(width);
 		});
-	},
-	buttons : function() {
-		this.dom.find('button').each(function(){
-			
-			$(this).button({
-				icons: {
-					primary: $(this).attr('icon')
-				}
-			});
-		});
-
-		$('.buttonset', this.dom).buttonset();
 	},
 	slider: function() {
 		this.dom.find('.ui-slider', this.dom).each(function(){

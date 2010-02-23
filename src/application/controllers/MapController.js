@@ -23,7 +23,9 @@ var MapController = new JS.Class(Application_Controller,{
 						height	= $('#newMap-height').val();
 						
 					var map = new Map(width, height ,32,32);
-
+					var layer = new Layer('Ground', width, height);
+					layer.createEmptyTiles();
+					map.addLayer(layer);
 
 					sessionStorage.setObject('map', null);
 
@@ -40,8 +42,5 @@ var MapController = new JS.Class(Application_Controller,{
 		});
 		$("#newMap-dialog").dialog('open');
 
-	},
-	changeLayer: function() {
-		
 	}
 })

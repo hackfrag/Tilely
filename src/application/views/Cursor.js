@@ -16,6 +16,8 @@ View.Cursor = new JS.Class(Application_Object, {
 		this.height		= height
 		this.widthInPx	= (width * tilewidth) - this.border;
 		this.heightInPx = (height * tileheight) - this.border;
+		this.role		= 'stamp';
+		this.pattern	= [];
 	},
 	hide : function() {
 		this.isHidden = true;
@@ -57,17 +59,19 @@ View.Cursor = new JS.Class(Application_Object, {
 
 		})
 		.mousemove(function(event) {
+			event.preventDefault();
 			self.mouse.moving = true;
 			if (self.mouse.down && !self.isHidden) {;
-				self.notify('click', self.getPosition());
+				self.notify('cursorClicked', self.getSize(), self.getPosition(), self.getPattern());
 			}
 		})
 		.mouseout(function(event) {
 			self.mouse.moving = false;
 		})
 		.mousedown(function(event) {
+			event.preventDefault();
 			self.mouse.down = true;
-			self.notify('click', self.getPosition());
+			self.notify('cursorClicked',  self.getSize(), self.getPosition(), self.getPattern());
 		})
 		.mouseup(function(event) {
 			self.mouse.down = false;
@@ -111,11 +115,21 @@ View.Cursor = new JS.Class(Application_Object, {
 			.height((height * 32) - this.border);
 
 	},
+
 	getPosition : function() {
 		return {
 			x: this._cursor.position().left / 32,
 			y: this._cursor.position().top / 32
 		}
+	},
+	setRole: function(role) {
+		this.role = role;
+	},
+	setPattern: function(pattern) {
+		this.pattern = pattern;
+	},
+	getPattern: function() {
+		return this.pattern;
 	},
 	getSize : function() {
 

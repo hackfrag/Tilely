@@ -8,7 +8,7 @@ View.Tileset = new JS.Class(Application_Object, {
 	},
 	setTileset: function(tileset) {
 		this.tileset = tileset;
-	
+		return this;
 	},
 	reload: function() {
 		$(this._view).empty();

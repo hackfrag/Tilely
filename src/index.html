@@ -6,20 +6,23 @@
 		<script type="text/javascript" src="external/jquery.js"></script>
 		<script type="text/javascript" src="application/Bootstrap.js"></script>
 		<link rel="stylesheet" type="text/css" href="assets/styles/interface.css" />
-		<link rel="stylesheet" type="text/css" href="assets/styles/smoothness/ui.all.css" />
-		<link rel="stylesheet" type="text/css" href="assets/styles/smoothness/jquery-ui.css" />
+		<link rel="stylesheet" type="text/css" href="assets/styles/base/jquery.ui.all.css" />
+	
 	</head>
 	<body>
 		<div id="tmp"></div>
 		<div id="toolbar">
 			<div class="buttons">
-				<button icon="ui-icon-document" href="map/create">New</button>
-				<button icon="ui-icon-folder-open" href="editor/open">Open</button>
-				<button icon="ui-icon-disk">Save</button>
-				<a href="#">
-					
-				</a>
+				<button id="toolbar-action-new">New</button>
+				<button id="toolbar-action-open">Open</button>
+				<button id="toolbar-action-save">Save</button>
+				
 			</div>
+			<span id="toolbar-tools">
+				<input type="radio" id="toolbar-tools-stamp" name="tool" checked="checked" /><label for="toolbar-tools-stamp">Stamp</label>
+				<input type="radio" id="toolbar-tools-bucket" name="tool" /><label for="toolbar-tools-bucket">Paint Bucket</label>
+				<input type="radio" id="toolbar-tools-eraser" name="tool" /><label for="toolbar-tools-eraser">Eraser</label>
+			</span>
 
 		</div>
 		<div id="sidebar-disabled"></div>

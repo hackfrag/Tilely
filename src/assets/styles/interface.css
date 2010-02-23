@@ -199,6 +199,7 @@ ul.list li span.checkmark {
 #layers ul li input {
 	margin-right: 10px;
 }
+
 #layers ul li.ui-listview-hover {
 	cursor:pointer;
 
@@ -208,6 +209,7 @@ ul.list li span.checkmark {
 	background: -moz-linear-gradient(top, #585f65, #41494f);
 	color:#fff;
 }
+
 #layers ul li.ui-listview-active .draghandle {
 	background: url('../images/draghandle.png') no-repeat;
 }
@@ -311,10 +313,12 @@ input.text {
 /**
  * Jquery UI Additions
  */
+/*
 .ui-button-text-icon .ui-button-text,
 .ui-button-text-icons .ui-button-text {
 	padding-left:25px !important;
 }
+
 .ui-button-icon-only .ui-icon,
 .ui-button-text-icon .ui-icon,
 .ui-button-text-icons .ui-icon,
@@ -340,6 +344,7 @@ input.text {
 	text-shadow:0 -1px 1px rgba(255, 255, 255, 0.25) !important;
 	color:#000;
 }
+*/
 
 
 

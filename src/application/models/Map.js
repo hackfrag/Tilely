@@ -110,7 +110,9 @@ var Map = new JS.Class(Application_Object, {
 			'x'		: x
 		};
 	},
-	setTile: function(layerIndex, tileIndex, gid) {
+	setTileAtCords: function(layerIndex, x, y, gid) {
+
+		var tileIndex = this.cordsToIndex(x, y);
 		this.layers[layerIndex].tiles[tileIndex].gid = gid;
 	},
 

@@ -2,7 +2,7 @@ var Application_Object = new JS.Class({
 
 	init: function(){
 		this.observers = [];
-		
+		this.delegate ='';
 	},
 	notify : function(notificationName) {
 		
@@ -13,12 +13,20 @@ var Application_Object = new JS.Class({
 				
 				
 				if(item.notificationName == notificationName){
-			
-					item.callback.apply(this, args)
+					
+					item.callback.apply(this,args)
 				}
 			
 			
 			});
+		}
+
+		if(this.delegate) {
+		
+			if(this.delegate[notificationName]) {
+				
+				this.delegate[notificationName].apply(this.delegate,args)
+			}
 		}
 	},
 	subscribe: function(notificationName, callback) {
@@ -29,7 +37,9 @@ var Application_Object = new JS.Class({
 		};
 		this.observers.push(object);
 	},
-	
+	setDelegate: function(delegate) {
+		this.delegate = delegate;
+	},
 	arrayFrom: function arrayFrom(object) {
         if(!object) {
             return [];

@@ -67,7 +67,8 @@ var Application_Controller_Front = new JS.Class({
 		controllerObj = this.controllers[route.controller];
 		controllerObj.setRequest(route.request);
 
-		controllerObj.init();
+	
+		
 		controllerObj[route.action]();
 		controllerObj.postDispatch();
 
@@ -81,7 +82,6 @@ var Application_Controller_Front = new JS.Class({
 		controllerObj = this.controllers[route.controller];
 		controllerObj.setRequest(request);
 
-		controllerObj.init();
 		controllerObj[route.action]();
 		controllerObj.postDispatch();
 	}

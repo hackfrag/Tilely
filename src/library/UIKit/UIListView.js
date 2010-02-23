@@ -25,7 +25,7 @@ var UIListView = new  JS.Class(Application_Object, {
 		this.datasource = datasource;
 		this.delegate 	= this;
 		this.active 	= 0;
-		
+		this.edit		= -1;
 		this._view = $('<div>');
 
 	},
@@ -44,7 +44,12 @@ var UIListView = new  JS.Class(Application_Object, {
 
 
 		this.datasource.forEach(function(item, i) {
-			li = $(self._style.item).append(self.rowAtIndex(i));
+
+			if(self.edit == i) {
+				li = $(self._style.item).append(self.editRowAtIndex(i));
+			} else {
+				li = $(self._style.item).append(self.rowAtIndex(i));
+			}
 			
 			if(self._style.name == "list") {
 				if(self.isSortable()) {
@@ -57,6 +62,21 @@ var UIListView = new  JS.Class(Application_Object, {
 							.find('li')
 							.removeClass('ui-listview-active');
 						$(this).addClass('ui-listview-active');
+
+					})
+				}
+				if(self.isEditAbleAtIndex(i)) {
+					li.dblclick(function(){
+						self.setEditIndex('-1');
+						self.reload();
+						var parent = self._view.find('li[value='+i+']');
+						console.log(parent);
+						parent
+							.children('div')
+							.remove()
+
+						parent.append(self.editRowAtIndex(i))
+						self.afterEditRowAppend(parent);
 
 					})
 				}
@@ -118,11 +138,17 @@ var UIListView = new  JS.Class(Application_Object, {
 	isSelectAbleAtIndex: function(index) {
 		return true;
 	},
+	isEditAbleAtIndex: function(index) {
+		return true;
+	},
 	didSelectedAtIndex: function(index) {
 		
 	},
 	isActive: function(index) {
 		return false;
+	},
+	afterEditRowAppend: function(li) {
+
 	},
 	reload: function() {
 	
