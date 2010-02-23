@@ -56,7 +56,7 @@ var EditorController = new JS.Class(Application_Controller,{
 		$('#sidebar-disabled').hide();
 
 		
-		worker.postMessage("start");
+		
 		var mapView,
 			cursorView,
 			layerListView,

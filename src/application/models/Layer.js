@@ -33,6 +33,20 @@ var Layer = new JS.Class({
 			layer.tiles.push(tile.encode());
 		});
 		return layer;
-	}
+	},
+	encodeXML: function() {
+		var layer = {
+			name	: this.name,
+			width	: this.width,
+			height	: this.height,
+			data	: {
+				tile: []
+			}
+		}
 
+		this.tiles.forEach(function(tile) {
+			layer.data.tile.push(tile.encode());
+		});
+		return layer;
+	}
 })

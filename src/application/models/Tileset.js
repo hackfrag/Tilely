@@ -44,5 +44,24 @@ var Tileset = new JS.Class(Application_Object, {
 		}
 		
 		return tileset;
+	},
+	encodeXML: function() {
+
+		var tileset = {
+			firstgid	: this.firstgid,
+			name		: this.name,
+			image		: {
+				src		: this.name,
+				data	: this.image
+			},
+			tilewidth	: this.tilewidth,
+			tileheight	: this.tileheight,
+			spacing		: this.spacing,
+			margin		: this.margin,
+			height		: this.height,
+			width		: this.width
+		}
+
+		return tileset;
 	}
 })

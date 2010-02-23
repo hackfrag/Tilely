@@ -131,8 +131,8 @@ var Map = new JS.Class(Application_Object, {
 	},
 	asXML: function() {
 	
-		var xml = $.json2xml(this, {
-			formatOutput: true,
+		var xml = $.json2xml(this.encodeXML(), {
+			formatOutput: false,
 			rootTagName: 'map',
 			replace: [{'tiles' : 'data'}]
 
@@ -160,6 +160,29 @@ var Map = new JS.Class(Application_Object, {
 		this.tilesets.forEach(function(tileset) {
 	
 			map.tilesets.push(tileset.encode());
+		});
+
+		return map;
+	},
+	encodeXML: function() {
+		var map = {
+			version		: this.version,
+			orientation	: this.orientation,
+			width		: this.width,
+			height		: this.height,
+			tilewidth	: this.tilewidth,
+			tileheight	: this.tileheight,
+			layer		: [],
+			tileset	: []
+		};
+
+		this.layers.forEach(function(layer) {
+
+			map.layer.push(layer.encodeXML());
+		});
+		this.tilesets.forEach(function(tileset) {
+
+			map.tilesets.push(tileset.encodeXML());
 		});
 
 		return map;
