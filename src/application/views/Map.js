@@ -99,17 +99,22 @@ View.Map = new JS.Class(Application_Object, {
 
 		position = this.map.getPositionForGID(gid);
 		image	 = this.map.getTilesetImageForGID(gid);
-	
-		canvas.drawImage(image,
-							Math.abs(position.left),
-							Math.abs(position.top),
-							32,
-							32,
-							x * 32,
-							y * 32,
-							32,
-							32
-						)
+
+
+		canvas.clearRect(x * 32, y * 32, 32, 32);
+
+		if(gid != 0) {
+			canvas.drawImage(image,
+								Math.abs(position.left),
+								Math.abs(position.top),
+								32,
+								32,
+								x * 32,
+								y * 32,
+								32,
+								32
+							);
+		}
 	},
 	redraw: function() {
 		this.draw();

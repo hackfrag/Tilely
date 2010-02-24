@@ -33,11 +33,11 @@ View.Toolbar = {
 		})
 
 
-
+		$('#toolbar-tools').buttonset()
 		$('#toolbar-tools-stamp').button({
-			text: true,
+			text: false,
 			icons: {
-				primary: 'ui-icon-save'
+				primary: 'ui-icon-stamp'
 			}
 		})
 		.click(function() {
@@ -45,9 +45,9 @@ View.Toolbar = {
 		})
 
 		$('#toolbar-tools-bucket').button({
-			text: true,
+			text: false,
 			icons: {
-				primary: 'ui-icon-save'
+				primary: 'ui-icon-bucket'
 			}
 		})
 		.click(function() {
@@ -55,10 +55,10 @@ View.Toolbar = {
 		})
 
 		$('#toolbar-tools-eraser').button({
-			 text: true,
+			 text: false,
 
 			icons: {
-				primary: 'ui-icon-save'
+				primary: 'ui-icon-eraser'
 			}
 		})
 		.click(function() {
@@ -66,7 +66,7 @@ View.Toolbar = {
 		})
 
 	
-
+		
 
 	}
 };

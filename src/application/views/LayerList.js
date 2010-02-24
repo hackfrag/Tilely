@@ -75,7 +75,6 @@ View.LayerList = new JS.Class(UIListView, {
 		return true;
 	},
 	orderDidChange: function(event, ui) {
-		console.log(ui);
 		this.notify('layerOrderDidChanged');
 	},
 	isSelectAbleAtIndex: function(index) {

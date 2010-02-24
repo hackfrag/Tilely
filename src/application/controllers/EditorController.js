@@ -16,6 +16,8 @@ jQuery.require('application/views/TilesetDialog.js');
 jQuery.require('application/views/Tileset.js');
 jQuery.require('application/views/OpenDialog.js');
 jQuery.require('application/views/Toolbar.js');
+jQuery.require('application/views/Navigator.js');
+
 
 var EditorController = new JS.Class(Application_Controller,{
 
@@ -31,6 +33,9 @@ var EditorController = new JS.Class(Application_Controller,{
 	
 	indexAction: function() {
 
+		var navigator = new View.Navigator();
+		navigator.open();
+		
 		View.Toolbar.init();
 		
 		var mapData = sessionStorage.getObject('map');
@@ -64,13 +69,30 @@ var EditorController = new JS.Class(Application_Controller,{
 		
 		$('#sidebar-disabled').hide();
 
-		
+
 		
 		var mapView,
 			layerListView,
 			tilesetListView,
 			tilesetView,
 			$this = this;
+
+
+		$("#toolbar-action-save-fake").downloadify({
+			filename: function(){
+				return "map.xml";
+			},
+			data: function(){
+				return $this.map.asXML();
+			},
+			swf: 'assets/media/downloadify.swf',
+			downloadImage: 'assets/images/clear.png',
+			width: 60,
+			height: 28,
+			transparent: true,
+			append: false
+
+		});
 
 	
 		this.cursor		= new View.Cursor(1, 1, this.map.tilewidth, this.map.tileheight);
@@ -127,6 +149,9 @@ var EditorController = new JS.Class(Application_Controller,{
 		});
 		
 		dialog.open();
+	},
+	saveAction: function() {
+		alert('test');
 	},
 	addTilesetAction: function() {
 	
@@ -251,10 +276,17 @@ var EditorController = new JS.Class(Application_Controller,{
 
 				break;
 			case 'eraser':
-			
+				if(pattern.length == 1) {
+					tiles.push({
+						layer	: $this.layer,
+						x		: position.x,
+						y		: position.y,
+						gid		: 0
+					});
+				}
 				break;
 		}
-		
+
 		tiles.forEach(function(tile, i) {
 			$this.map.setTileAtCords(tile.layer, tile.x, tile.y, tile.gid);
 			$('#main').view().setTileAtCords(tile.layer, tile.x, tile.y, tile.gid);

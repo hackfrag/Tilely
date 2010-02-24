@@ -67,6 +67,7 @@ var UIListView = new  JS.Class(Application_Object, {
 				}
 				if(self.isEditAbleAtIndex(i)) {
 					li.dblclick(function(){
+						self.active = i;
 						self.setEditIndex('-1');
 						self.reload();
 						var parent = self._view.find('li[value='+i+']');

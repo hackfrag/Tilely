@@ -85,6 +85,8 @@ var Map = new JS.Class(Application_Object, {
 		return this.cache.image[gid];
 	},
 	getPositionForGID: function(gid) {
+
+		
 		var tileset = this.getTilesetForGID(gid),
 			localid = 0,
 			width	= 0,
@@ -134,7 +136,7 @@ var Map = new JS.Class(Application_Object, {
 	asXML: function() {
 	
 		var xml = $.json2xml(this.encodeXML(), {
-			formatOutput: false,
+			formatOutput: true,
 			rootTagName: 'map',
 			replace: [{'tiles' : 'data'}]
 

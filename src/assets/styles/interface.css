@@ -89,6 +89,7 @@ ul.list li span.checkmark {
 #toolbar .buttons {
 	float:left;
 	margin-right:7px;
+	position: relative;
 }
 
 
@@ -106,6 +107,16 @@ ul.list li span.checkmark {
 	
 	position: relative;
 }
+#toolbar-action-save-fake {
+	position: absolute;
+	width:61px;
+	height:28px;
+	top:0px;
+	left:130px;
+	
+	z-index:999;
+}
+
 
 #sidebar-disabled {
 	bottom:0px;
@@ -345,7 +356,9 @@ input.text {
 	color:#000;
 }
 */
-
+.ui-button-icon-only {
+	width:3.2em !important;
+}
 
 
 /**
@@ -509,4 +522,17 @@ div.cursor div.cursor-tile-inner2 {
 	background-position: left -32px;
 }
 
+/**
+ * custom icons
+ */
+.ui-icon-stamp {
+	 background: transparent url('../images/1267010546_pencil.png') no-repeat left top !important;
+}
+.ui-icon-bucket {
+	 background: transparent url('../images/1267010565_fill.png') no-repeat left top !important;
+}
+
+.ui-icon-eraser {
+	 background: transparent url('../images/1267010584_eraser.png') no-repeat left top !important;
+}
 
