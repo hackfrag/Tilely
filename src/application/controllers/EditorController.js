@@ -27,7 +27,7 @@ var EditorController = new JS.Class(Application_Controller,{
 		this.layer	= 0;
 		this.tileset= 0;
 		this.cursor = '';
-
+	
 		
 	},
 	
@@ -38,12 +38,12 @@ var EditorController = new JS.Class(Application_Controller,{
 		
 		View.Toolbar.init();
 		
-		var mapData = sessionStorage.getObject('map');
+		var mapData = localStorage.getObject('map');
 		if(mapData) {
 			var map = Map.load(mapData);
 			this.post('editor/load', {'map' : map});
 		}
-	
+
 		/*
 		 *
 		 var worker	= new  Worker("application/workers/json.js"),
@@ -60,7 +60,7 @@ var EditorController = new JS.Class(Application_Controller,{
 
 		worker.postMessage({
 			action	: 'load',
-			param	: sessionStorage.map
+			param	: localStorage.map
 		});
 		 */
 	},
@@ -76,25 +76,40 @@ var EditorController = new JS.Class(Application_Controller,{
 			tilesetListView,
 			tilesetView,
 			$this = this;
-		
-		$("#toolbar-action-save-fake").hide();
-		/*
-		$("#toolbar-action-save-fake").downloadify({
-			filename: function(){
-				return "map.xml";
-			},
-			data: function(){
-				return $this.map.asXML();
-			},
-			swf: 'assets/media/downloadify.swf',
-			downloadImage: 'assets/images/clear.png',
-			width: 60,
-			height: 28,
-			transparent: true,
-			append: false
 
-		});
-		*/
+
+		/**
+		 * Flash check & save init
+		 */
+		if(jQuery.playerVersion() == "0,0,0") {
+			$("#toolbar-action-save-fake").hide();
+		} else {
+			$("#toolbar-action-save-fake").downloadify({
+				filename: function(){
+					return "map.xml";
+				},
+				data: function(){
+					return $this.map.asXML();
+				},
+				swf: 'assets/media/downloadify.swf',
+				downloadImage: 'assets/images/clear.png',
+				width: 60,
+				height: 28,
+				transparent: true,
+				append: false
+
+			});	
+		}
+
+		/**
+		 * Autosaver
+		 */
+		setTimeout(function() {
+			$this.route('editor/autosave');
+		}, 5000)
+		
+		
+		
 	
 		this.cursor		= new View.Cursor(1, 1, this.map.tilewidth, this.map.tileheight);
 		mapView			= new View.Map(this.map);
@@ -124,7 +139,7 @@ var EditorController = new JS.Class(Application_Controller,{
 
 		mapView.setCursor(this.cursor);
 		
-		sessionStorage.setObject('map', this.map.encode());
+		localStorage.setObject('map', this.map.encode());
 
 	},
 	addLayerAction : function() {
@@ -138,7 +153,7 @@ var EditorController = new JS.Class(Application_Controller,{
 
 		$('#layers').view().reload();
 	
-		sessionStorage.setObject('map', this.map.encode());
+		localStorage.setObject('map', this.map.encode());
 	
 	},
 	openAction: function() {
@@ -152,8 +167,7 @@ var EditorController = new JS.Class(Application_Controller,{
 		dialog.open();
 	},
 	saveAction: function() {
-		myWindow = window.open("", "tinyWindow", 'toolbar,width=150,height=100')
-		myWindow.document.write(""+this.map.asXML()+" ");
+		
 	},
 	addTilesetAction: function() {
 	
@@ -168,14 +182,24 @@ var EditorController = new JS.Class(Application_Controller,{
 			$this.map.addTileset(tileset);
 			
 			
-			sessionStorage.setObject('map', $this.map.encode());
+			localStorage.setObject('map', $this.map.encode());
 		});
 
 	},
 	changeCursorRoleAction: function() {
 		this.cursor.setRole(this.request.role);
 	},
-
+	autosaveAction: function() {
+		var $this = this;
+		
+		localStorage.setObject('map', this.map.encode());
+	
+		setTimeout(function() {
+			$this.route('editor/autosave');
+		}, 5000);
+		
+		
+	},
 	///////////////////////////////////////////////////////////////////////////
 	/**
 	 * Delegates
@@ -288,13 +312,13 @@ var EditorController = new JS.Class(Application_Controller,{
 				}
 				break;
 		}
-
+	
 		tiles.forEach(function(tile, i) {
 			$this.map.setTileAtCords(tile.layer, tile.x, tile.y, tile.gid);
 			$('#main').view().setTileAtCords(tile.layer, tile.x, tile.y, tile.gid);
 		});
 
-		//sessionStorage.setObject('map', $this.map.encode());
+		//localStorage.setObject('map', $this.map.encode());
 	
 	},
 	tilesetSelectionDidChange: function(index) {

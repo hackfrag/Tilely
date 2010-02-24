@@ -115,7 +115,12 @@ var Map = new JS.Class(Application_Object, {
 	setTileAtCords: function(layerIndex, x, y, gid) {
 
 		var tileIndex = this.cordsToIndex(x, y);
-		this.layers[layerIndex].tiles[tileIndex].gid = gid;
+		if(this.layers[layerIndex].tiles[tileIndex]) {
+			this.layers[layerIndex].tiles[tileIndex].gid = gid;
+		} else {
+			throw new Error('tileindex '+tileIndex+' is not in array');
+		}
+		
 	},
 
 	indexToCords: function(index) {
@@ -179,14 +184,14 @@ var Map = new JS.Class(Application_Object, {
 			layer		: [],
 			tileset	: []
 		};
-
+		
 		this.layers.forEach(function(layer) {
 
 			map.layer.push(layer.encodeXML());
 		});
 		this.tilesets.forEach(function(tileset) {
 
-			map.tilesets.push(tileset.encodeXML());
+			map.tileset.push(tileset.encodeXML());
 		});
 
 		return map;

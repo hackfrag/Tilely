@@ -5,6 +5,7 @@ jQuery.require('external/jquery.ui.js');
 jQuery.require('external/jquery.mousehold.js');
 jQuery.require('external/swfobject.js');
 jQuery.require('external/downloadify.min.js');
+jQuery.require('external/jquery.flash.js');
 
 jQuery.require('Library/AppKit/AppKit.js');
 jQuery.require('Library/UIKit/UIKit.js');

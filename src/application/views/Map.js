@@ -114,6 +114,9 @@ View.Map = new JS.Class(Application_Object, {
 								32,
 								32
 							);
+		} else {
+			canvas.clearRect(x * 32, y * 32, 32, 32);
+
 		}
 	},
 	redraw: function() {

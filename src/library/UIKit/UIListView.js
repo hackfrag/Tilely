@@ -71,7 +71,7 @@ var UIListView = new  JS.Class(Application_Object, {
 						self.setEditIndex('-1');
 						self.reload();
 						var parent = self._view.find('li[value='+i+']');
-						console.log(parent);
+						
 						parent
 							.children('div')
 							.remove()

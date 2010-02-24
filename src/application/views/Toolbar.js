@@ -25,7 +25,7 @@ View.Toolbar = {
 
 		$('#toolbar-action-save').button({
 			icons: {
-				primary: 'ui-icon-save'
+				primary: 'ui-icon-disk'
 			}
 		})
 		.click(function() {

@@ -14,7 +14,7 @@ var Layer = new JS.Class({
 		this.tiles.push(tile);
 	},
 	createEmptyTiles: function() {
-		for(var i = 0; i < (this.height * this.width); i++) {
+		for(var i = -1; i < (this.height * this.width) ; i++) {
 			this.addTile(new Tile(0));
 		}
 	},
