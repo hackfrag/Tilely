@@ -76,8 +76,9 @@ var EditorController = new JS.Class(Application_Controller,{
 			tilesetListView,
 			tilesetView,
 			$this = this;
-
-
+		
+		$("#toolbar-action-save-fake").hide();
+		/*
 		$("#toolbar-action-save-fake").downloadify({
 			filename: function(){
 				return "map.xml";
@@ -93,7 +94,7 @@ var EditorController = new JS.Class(Application_Controller,{
 			append: false
 
 		});
-
+		*/
 	
 		this.cursor		= new View.Cursor(1, 1, this.map.tilewidth, this.map.tileheight);
 		mapView			= new View.Map(this.map);
@@ -101,7 +102,7 @@ var EditorController = new JS.Class(Application_Controller,{
 		tilesetListView	= new View.TilesetList(this.map.tilesets, UIListViewStyleSelect);
 		tilesetView		= new View.Tileset(this.map.tilesets[0]);
 	
-
+		
 		this.layer = 0;
 		layerListView
 			.setActiveIndex(0)
@@ -151,7 +152,8 @@ var EditorController = new JS.Class(Application_Controller,{
 		dialog.open();
 	},
 	saveAction: function() {
-		alert('test');
+		myWindow = window.open("", "tinyWindow", 'toolbar,width=150,height=100')
+		myWindow.document.write(""+this.map.asXML()+" ");
 	},
 	addTilesetAction: function() {
 	

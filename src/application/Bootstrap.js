@@ -15,8 +15,6 @@ jQuery.require('application/models/Layer.js');
 jQuery.require('application/models/Tileset.js');
 jQuery.require('application/models/Map.js');
 
-
-
 $(document).ready(function() {
 
 	UIKit.parse();

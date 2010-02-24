@@ -101,7 +101,7 @@ View.Map = new JS.Class(Application_Object, {
 		image	 = this.map.getTilesetImageForGID(gid);
 
 
-		canvas.clearRect(x * 32, y * 32, 32, 32);
+		
 
 		if(gid != 0) {
 			canvas.drawImage(image,
