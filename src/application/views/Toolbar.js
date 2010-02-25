@@ -32,6 +32,23 @@ View.Toolbar = {
 			fc.route('editor/save')
 		})
 
+		$('#toolbar-action-undo').button({
+			icons: {
+				primary: 'ui-icon-undo'
+			}
+		})
+		.click(function() {
+			fc.route('editor/undo')
+		})
+
+		$('#toolbar-action-redo').button({
+			icons: {
+				primary: 'ui-icon-redo'
+			}
+		})
+		.click(function() {
+			fc.route('editor/redo')
+		})
 
 		$('#toolbar-tools').buttonset()
 		$('#toolbar-tools-stamp').button({
@@ -65,8 +82,61 @@ View.Toolbar = {
 			fc.post('editor/changeCursorRole',{role: 'eraser'})
 		})
 
-	
-		
+		$('#toolbar-tools-collision').button({
+			 text: false,
+
+			icons: {
+				primary: 'ui-icon-collision'
+			}
+		})
+		.click(function() {
+			fc.post('editor/changeCursorRole',{role: 'collision'})
+		})
+
+		$('#toolbar-layer').buttonset()
+
+		$('#toolbar-layer-grid').button({
+			 text: true,
+
+			icons: {
+				primary: 'ui-icon-grid'
+			}
+		})
+		.click(function() {
+			fc.post('editor/showGrid',{showGrid: $('#toolbar-layer-grid').is(':checked')})
+		})
+
+		$('#toolbar-layer-collision').button({
+			 text: true,
+
+			icons: {
+				primary: 'ui-icon-collision-layer'
+			}
+		})
+		.click(function() {
+
+			fc.post('editor/showCollisionLayer',{showCollisionLayer: $('#toolbar-layer-collision').is(':checked')})
+		})
+
+
+
+
+		new UIUpload ({
+			type: /.*/,
+			selector: '#map-filedropzone',
+			returnType: 'text',
+			success: function(file) {
+
+				if(file.type  == "text/xml") {
+					map = Map.create(file.src);
+
+					var fc = Application_Controller_Front.getInstance();
+					fc.post('editor/load', {'map' : map});
+					$('#map-filedropzone').val('');
+				}
+
+			}
+		});
 
 	}
 };

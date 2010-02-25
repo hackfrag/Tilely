@@ -122,6 +122,7 @@ var UIListView = new  JS.Class(Application_Object, {
 			listview.sortable('option', 'stop', function(event, ui) {
 				self.orderDidChange(event, ui);
 			});
+			
 		}
 	
 		return this._view;

@@ -6,6 +6,8 @@ View.Map = new JS.Class(Application_Object, {
 		
 		this.map = map;
 		this._map = '';
+		this.grid		= false;
+		this.collision	= false;
 	},
 	draw: function() {
 		var canvasTag,
@@ -20,104 +22,87 @@ View.Map = new JS.Class(Application_Object, {
 		height =  this.map.height * this.map.tileheight;
 
 		if(!this._map) {
-			var map = $('<div class="map">'),
-				container = $('<div class="map-container">'),
-				overlay = $('<div class="overlay">');
+			var map = $('<div class="map">')
+				
 
 			map
 				.width(width)
 				.height(height)
 
-			container
-				.width(width)
-				.height(height)
-				.append(overlay);
-				
-			map.append(container);
-			this._map = map;
-		}
-		
-		container = this._map.find('.map-container');
-		container.empty();
-		this.map.layers.forEach(function(layer, i) {
+			
 			canvasTag = $('<canvas>')
-							.attr('id','layer-'+ i)
+							.attr('id','layer')
 							.attr('height',height)
 							.attr('width',width)
 							.addClass('canvas');
-
-			canvas = canvasTag.get(0).getContext("2d");
 			
-			layer.tiles.forEach(function(tile, i) {
-				if(tile.gid !== 0) {
-					
-					position = self.map.getPositionForGID(tile.gid);
-					image	 = self.map.getTilesetImageForGID(tile.gid);
-					cords	 = self.map.indexToCords(i);
-					
-					canvas.drawImage(image,
-							Math.abs(position.left),
-							Math.abs(position.top),
-							32,
-							32,
-							cords.x * 32,
-							cords.y * 32,
-							32,
-							32
-						)
-
-				}
-
-
-
-				
-			});
-
-			container.append(canvasTag);
-		});
-
-
-		return this._map;
-	},
-	changeLayerVisibility: function(index, flag) {
-		var canvasTag = $('#layer-' +index);
-
-		if(flag) {
-			canvasTag.show();
-		} else {
-			canvasTag.hide();
+			map.append(canvasTag);
+			this._map = map;
 		}
-	},
-	setTileAtCords: function(layerIndex, x, y, gid) {
-		var canvasTag = $('#layer-' +layerIndex),
-			canvas,
-			position,
-			image;
-			
-			
-		canvas = canvasTag.get(0).getContext("2d");
-
-		position = this.map.getPositionForGID(gid);
-		image	 = this.map.getTilesetImageForGID(gid);
-
-
 		
+		canvasTag = this._map.find('canvas');
+		canvas = canvasTag.get(0).getContext("2d");
+		
+		canvas.clearRect(0,0,width, height)
 
-		if(gid != 0) {
-			canvas.drawImage(image,
+		this.map.layers.forEach(function(layer, i) {
+
+			if(layer.visible) {
+				canvas.globalAlpha = layer.alpha;
+				layer.tiles.forEach(function(tile, i) {
+					if(tile.gid != 0) {
+
+						position = self.map.getPositionForGID(tile.gid);
+						image	 = self.map.getTilesetImageForGID(tile.gid);
+						cords	 = self.map.indexToCords(i);
+
+						canvas.drawImage(image,
 								Math.abs(position.left),
 								Math.abs(position.top),
 								32,
 								32,
-								x * 32,
-								y * 32,
+								cords.x * 32,
+								cords.y * 32,
 								32,
 								32
-							);
-		} else {
-			canvas.clearRect(x * 32, y * 32, 32, 32);
+							)
+						
+					}
+				});
+			}
+
+			
+		});
+
+		
+		if(this.grid) {
+			canvas.strokeStyle = "#ccc";
+
+			for(var x = 0; x < this.map.width; x++) {
+				canvas.beginPath();
+				canvas.moveTo(x * this.map.tilewidth, 0);
+				canvas.lineTo(x * this.map.tilewidth, height);
+				canvas.stroke();
+				for(var y = 0; y < this.map.height; y++) {
+					canvas.beginPath();
+					canvas.moveTo(0, y * this.map.tileheight);
+					canvas.lineTo(width, y * this.map.tileheight);
+					canvas.stroke();
+				}
+			}
+			
 
 		}
+
+		return this._map;
+	},
+	showCollisionLayer: function(flag) {
+		this.collision = flag;
+		return this;
+	},
+	showGrid: function(flag) {
+		this.grid = flag;
+		return this;
 	},
 	redraw: function() {
 		this.draw();

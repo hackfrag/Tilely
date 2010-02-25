@@ -27,14 +27,13 @@ var EditorController = new JS.Class(Application_Controller,{
 		this.layer	= 0;
 		this.tileset= 0;
 		this.cursor = '';
-	
+		
 		
 	},
 	
 	indexAction: function() {
 
-		var navigator = new View.Navigator();
-		navigator.open();
+		this.undoManager = new UndoManager();
 		
 		View.Toolbar.init();
 		
@@ -138,7 +137,11 @@ var EditorController = new JS.Class(Application_Controller,{
 		$('#main')		.addView(mapView);
 
 		mapView.setCursor(this.cursor);
-		
+
+		/*
+		var navigator = new View.Navigator();
+		navigator.open();
+		*/
 		localStorage.setObject('map', this.map.encode());
 
 	},
@@ -155,16 +158,6 @@ var EditorController = new JS.Class(Application_Controller,{
 	
 		localStorage.setObject('map', this.map.encode());
 	
-	},
-	openAction: function() {
-		var dialog = new View.OpenDialog();
-		
-		dialog.subscribe('mapDidLoad', function(map) {
-			var fc = Application_Controller_Front.getInstance();
-			fc.post('editor/load', {'map' : map});
-		});
-		
-		dialog.open();
 	},
 	saveAction: function() {
 		
@@ -188,6 +181,23 @@ var EditorController = new JS.Class(Application_Controller,{
 	},
 	changeCursorRoleAction: function() {
 		this.cursor.setRole(this.request.role);
+		if(this.request.role == "collision") {
+			this.showCollisionLayerAction();
+		}
+	},
+	showCollisionLayerAction: function() {
+	
+		$('#main')
+			.view()
+			.showCollisionLayer(this.request.showCollision)
+			.redraw();
+	},
+	showGridAction: function() {
+		
+		$('#main')
+			.view()
+			.showGrid(this.request.showGrid)
+			.redraw();
 	},
 	autosaveAction: function() {
 		var $this = this;
@@ -199,6 +209,12 @@ var EditorController = new JS.Class(Application_Controller,{
 		}, 5000);
 		
 		
+	},
+	undoAction: function() {
+		this.undoManager.undo();
+	},
+	redoAction: function() {
+		this.undoManager.redo();
 	},
 	///////////////////////////////////////////////////////////////////////////
 	/**
@@ -312,14 +328,32 @@ var EditorController = new JS.Class(Application_Controller,{
 				}
 				break;
 		}
-	
-		tiles.forEach(function(tile, i) {
-			$this.map.setTileAtCords(tile.layer, tile.x, tile.y, tile.gid);
-			$('#main').view().setTileAtCords(tile.layer, tile.x, tile.y, tile.gid);
-		});
+		
+		var action = {
+			undo: function() {
+			
+				var old;
+				tiles.forEach(function(tile, i) {
+					
+			
+				
+					$this.map.setTileAtCords(tile.layer, tile.x, tile.y, tile.old.gid);
+				});
+				$('#main').view().redraw();
+			},
+			redo: function() {
+			
+				tiles.forEach(function(tile, i) {
+					tile.old = jQuery.extend({}, $this.map.getTileAtCords(tile.layer, tile.x, tile.y))
+					$this.map.setTileAtCords(tile.layer, tile.x, tile.y, tile.gid);
+				});
+				$('#main').view().redraw();
+			}
 
-		//localStorage.setObject('map', $this.map.encode());
-	
+		}
+		
+		this.undoManager.add(action);
+		action.redo();
 	},
 	tilesetSelectionDidChange: function(index) {
 
@@ -337,16 +371,32 @@ var EditorController = new JS.Class(Application_Controller,{
 		this.cursor.setSize(size.width, size.height);
 	},
 	layerStatusDidChanged: function(index, status) {
+
+		this.map.layers[index].visible = status;
 		
 		$('#main')
 			.view()
-			.changeLayerVisibility(index, status)
+			.redraw();
 	},
 	layerNameDidChanged: function(name, index) {
 		this.map.layers[index].name = name;
 		$('#layers').view().reload();
 	},
 	layerOrderDidChanged: function () {
+		var array = [],
+			index = 0,
+			$this = this;
+
+		$('#layers').find('li').each(function(i, item){
+			index = $(this).attr('value');
+			array.push($this.map.layers[index]);
+		});
+		$this.map.layers = array;
+		$('#layers').view().datasource = $this.map.layers;
+		$('#layers').view().reload();
+		$('#main')
+			.view()
+			.redraw();
 		
 	}
 });

@@ -122,7 +122,16 @@ var Map = new JS.Class(Application_Object, {
 		}
 		
 	},
+	getTileAtCords: function(layerIndex, x, y) {
 
+		var tileIndex = this.cordsToIndex(x, y);
+		if(this.layers[layerIndex].tiles[tileIndex]) {
+			return this.layers[layerIndex].tiles[tileIndex]
+		} else {
+			throw new Error('tileindex '+tileIndex+' is not in array');
+		}
+
+	},
 	indexToCords: function(index) {
 		var x = 0,
 			y = 0;
@@ -207,6 +216,8 @@ Map.extend({
 
 		data.layers.forEach(function(item) {
 			layer = new Layer(item.name, item.width, item.height);
+			layer.visible	= item.visible;
+			layer.alpha		= item.alpha;
 			item.tiles.forEach(function(data){
 			
 				tile = new Tile(data.gid);
@@ -253,10 +264,13 @@ Map.extend({
 		
 		xml.find('tileset').each(function(i, item) {
 			item = $(item);
-			tileset = new Tileset(item.attr('name'),  item.attr('image'), 0, 0, item.attr('tilewidth'), item.attr('tileheight'));
+			var image = item.find('img');
+			
+			tileset = new Tileset(item.attr('name'),  image.attr('data'), item.attr('width'), item.attr('height'), item.attr('tilewidth'), item.attr('tileheight'));
 
 			map.addTileset(tileset, item.attr('firstgid'));
 		});
+		
 		return map;
 		
 	}

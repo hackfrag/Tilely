@@ -14,11 +14,14 @@ View.LayerList = new JS.Class(UIListView, {
 
 		input
 			.attr('type','checkbox')
-			.attr('checked','checked')
 			.click(function() {
 				var status = $(this).is(':checked');
 				self.notify('layerStatusDidChanged', index, status);
 			})
+
+		if(layer.visible) {
+			input.attr('checked','checked')
+		}
 
 		label
 			
@@ -45,23 +48,27 @@ View.LayerList = new JS.Class(UIListView, {
 		label
 			.attr('type','text')
 			.val(layer.name)
+			.blur(function() {
+				
+				form.submit(formsubmit);
+			})
 			.focus();
 
 		form
 			.append(label)
-			.submit(function() {
-				self.notify('layerNameDidChanged', label.val(), index);
-				self.setEditIndex(-1);
-				self.setActiveIndex(index);
-				self.reload();
-				return false;
-			});
+			.submit(formsubmit);
 		cell
 
 			.append(form)
 
 	
-
+		var formsubmit = function() {
+			self.notify('layerNameDidChanged', label.val(), index);
+			self.setEditIndex(-1);
+			self.setActiveIndex(index);
+			self.reload();
+			return false;
+		}
 		return cell;
 	},
 

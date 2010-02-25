@@ -69,7 +69,8 @@ var UIKit = {
 			var that = $(this);
 			$(this).sortable({
 				handle : '.draghandle',
-				containment: 'parent'
+				containment: 'parent',
+				tolerance: 'pointer'
 			})
 		})
 	}

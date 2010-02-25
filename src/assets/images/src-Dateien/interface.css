@@ -137,10 +137,6 @@ ul.list li span.checkmark {
 #toolbar-action-open-fake input:hover {
 	cursor: pointer;
 }
-
-#toolbar-tools {
-	z-index:30;
-}
 #sidebar-disabled {
 	bottom:0px;
 	left:0;
@@ -570,14 +566,5 @@ div.cursor div.cursor-tile-inner2 {
 }
 .ui-icon-grid {
 	 background: transparent url('../images/grid.png') no-repeat left top !important;
-}
-
-.ui-icon-undo {
-	 background: transparent url('../images/undo.png') no-repeat left top !important;
-}
-
-
-.ui-icon-redo {
-	 background: transparent url('../images/redo.png') no-repeat left top !important;
 }
 

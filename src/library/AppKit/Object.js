@@ -52,3 +52,4 @@ var Application_Object = new JS.Class({
         return results;
     }
 });
+

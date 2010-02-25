@@ -7,22 +7,7 @@ View.OpenDialog = new JS.Class(Application_Object, {
 	
 		var map;
 		
-		new UIUpload ({
-			type: /.*/,
-			selector: '#map-filedropzone',
-			returnType: 'text',
-			success: function(file) {
-				
-				if(file.type  == "text/xml") {
-					map = Map.create(file.src);
-					
-					map.tilesets.forEach(function(tileset) {
-						
-					});
-				}
-				
-			}
-		});
+		
 
 
 		$("#editor-openMap-dialog").dialog({

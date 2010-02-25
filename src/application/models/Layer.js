@@ -8,6 +8,8 @@ var Layer = new JS.Class({
 		this.height		= height;
 		this.properties = [];
 		this.tiles		= [];
+		this.visible	= true;
+		this.alpha		= 1.0;
 
 	},
 	addTile: function(tile) {
@@ -23,7 +25,9 @@ var Layer = new JS.Class({
 			name	: this.name,
 			width	: this.width,
 			height	: this.height,
-			tiles	: []
+			tiles	: [],
+			visible	: this.visible,
+			alpha	: this.alpha
 		}
 
 		this.tiles.forEach(function(tile) {

@@ -16,17 +16,27 @@
 				<button id="toolbar-action-new">New</button>
 				<button id="toolbar-action-open">Open</button>
 				<button id="toolbar-action-save">Save</button>
-				<div id="toolbar-action-save-fake">
-
-					
+				<div id="toolbar-action-save-fake"></div>
+				<div id="toolbar-action-open-fake">
+					<input type="file" name="map-filedropzone" id="map-filedropzone" class="text ui-widget-content ui-corner-all" size="20" value="19">
 				</div>
 			</div>
-			<span id="toolbar-tools">
+			<span class="buttons" id="toolbar-tools">
 				<input type="radio" id="toolbar-tools-stamp" name="tool" checked="checked" /><label for="toolbar-tools-stamp">Stamp</label>
 				<input type="radio" id="toolbar-tools-bucket" name="tool" /><label for="toolbar-tools-bucket">Paint Bucket</label>
 				<input type="radio" id="toolbar-tools-eraser" name="tool" /><label for="toolbar-tools-eraser">Eraser</label>
+				<input type="radio" id="toolbar-tools-collision" name="tool" /><label for="toolbar-tools-collision">collision</label>
+				
 			</span>
-
+			<span class="buttons">
+				<button id="toolbar-action-undo">Undo</button>
+				<button id="toolbar-action-redo">Redo</button>
+			</span>
+			<span class="buttons" id="toolbar-layer">
+				<input type="checkbox" id="toolbar-layer-grid" name="grid" /><label for="toolbar-layer-grid">Grid</label>
+				<input type="checkbox" id="toolbar-layer-collision" name="tool" /><label for="toolbar-layer-collision">Collision</label>
+				
+			</span>
 		</div>
 		<div id="sidebar-disabled"></div>
 		<div id="sidebar">
@@ -97,17 +107,6 @@
 				<label for="name">Mapfile</label>
 				<input type="file" name="map-filedropzone" id="map-filedropzone" class="text ui-widget-content ui-corner-all" size="20" value="19">
 				
-				<div id="map-file">
-					<dl class="list">
-						<dt>Name:</dt>
-						<dd>Das ist ein Test</dd>
-						<dt>Size:</dt>
-						<dd>10 x 13</dd>
-						<dt>Tilesize:</dt>
-						<dd>32 x 32</dd>
-					</dl>
-				
-				</div>
 			
 	</div>
 	<div class="dialog" id="editor-navigator" title="Navigator">

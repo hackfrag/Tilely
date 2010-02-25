@@ -16,11 +16,12 @@ View.Navigator = new JS.Class(Application_Object, {
 		});
 	},
 	open: function() {
-		//$("#editor-navigator").dialog('open');
+		this.reload();
+		$("#editor-navigator").dialog('open');
 	},
 	reload: function() {
 		var image = $('<img>');
-		var src = $('#layer-2').get(0).toDataURL("image/png");
+		var src = $('#layer').get(0).toDataURL("image/png");
 
 		image.attr('src', src);
 		image.width('275')
