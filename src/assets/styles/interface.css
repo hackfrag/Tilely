@@ -364,21 +364,27 @@ input.text {
 	padding-bottom:0px !important;
 }
 
-
+*/
 #toolbar .ui-state-default, 
 #toolbar .ui-widget-content .ui-state-default {
-	-moz-border-radius:5px 5px 5px 5px !important;
-	-moz-box-shadow:0 1px 3px rgba(0, 0, 0, 0.5)  !important;
-	background: -moz-linear-gradient(top, #eee, #ccc)  !important;	
-	border-bottom:1px solid rgba(0, 0, 0, 0.25) !important;	
+	background: -moz-linear-gradient(top, #eee, #ccc) ;	
+
 }
 
 
+#toolbar .ui-state-hover {
+	background: -moz-linear-gradient(top, #fff, #ddd)  !important;
+	border:1px solid #D3D3D3;
+}
+#toolbar .ui-state-active {
+	background: -moz-linear-gradient(top, #ddd, #fff) ;
+	border:1px solid #D3D3D3;
+}
 .ui-button-text {
 	text-shadow:0 -1px 1px rgba(255, 255, 255, 0.25) !important;
 	color:#000;
 }
-*/
+
 .ui-button-icon-only {
 	width:3.2em !important;
 }
