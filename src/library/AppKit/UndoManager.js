@@ -8,6 +8,10 @@ var UndoManager = new JS.Class({
 	add: function(object) {
 		this.undoStack.push(object);
 	},
+	clear: function() {
+		this.undoStack = [];
+		this.redoStack = [];
+	},
 	undo: function() {
 		if(this.undoStack.length) {
 			var object = this.undoStack[this.undoStack.length -1];

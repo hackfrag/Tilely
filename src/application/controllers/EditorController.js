@@ -33,7 +33,6 @@ var EditorController = new JS.Class(Application_Controller,{
 	
 	indexAction: function() {
 
-		this.undoManager = new UndoManager();
 		
 		View.Toolbar.init();
 		
@@ -65,7 +64,9 @@ var EditorController = new JS.Class(Application_Controller,{
 	},
 	loadAction: function(){
 		this.map  = this.request.map;
-		
+
+		this.undoManager = new UndoManager();
+
 		$('#sidebar-disabled').hide();
 
 
