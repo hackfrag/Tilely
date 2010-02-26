@@ -35,8 +35,12 @@
 			<span class="buttons" id="toolbar-layer">
 				<input type="checkbox" id="toolbar-layer-grid" name="grid" /><label for="toolbar-layer-grid">Grid</label>
 				<input type="checkbox" id="toolbar-layer-collision" name="tool" /><label for="toolbar-layer-collision">Collision</label>
-				
 			</span>
+			<div class="buttons" id="toolbar-system">
+				<button id="toolbar-action-navigator">Navigator</button>
+				<button id="toolbar-action-settings">Settings</button>
+
+			</div>
 		</div>
 		<div id="sidebar-disabled"></div>
 		<div id="sidebar">
@@ -47,14 +51,13 @@
 							new
 						</a>
 					</h3>
-					
 					<div class="ui-bar">					
 						<div id="layer-alpha" class="ui-slider" label="Alpha" min="0" max="100" value="100"></div>
 					</div>
 					
 					<div id="layers"  layout="fitToParent">
 						
-					
+
 					</div>
 				</li>
 				<li  style="height:60%">
@@ -79,13 +82,46 @@
 		<div id="main">
 
 		</div>
-
-		<div class="dialog" id="newMap-dialog" title="Create a new map">
+	<div class="dialog" id="newMap-dialog" title="Create a new map">
 			<form>
-				<label for="width">Width</label>
-				<input type="text" name="width" id="newMap-width" class="text ui-widget-content ui-corner-all" size="20" value="19">
-				<label for="height">Height</label>
-				<input type="text" name="height" id="newMap-height"  class="text ui-widget-content ui-corner-all" size="20" value="14">
+				<div class="container">
+					<fieldset>
+						<legend>Map</legend>
+						<dl>
+							<dt><label for="name">Name</label></dt>
+							<dd><input type="text" name="name" id="newMap-name" class="text ui-widget-content ui-corner-all" size="20" value=""></dd>
+						</dl>
+
+
+					</fieldset>
+				</div>
+				<div class="container">
+					<fieldset class="row width50">
+						<legend>Map Size</legend>
+						<dl>
+							<dt><label for="width">Width</label></dt>
+							<dd><input type="text" name="width" id="newMap-width" class="text ui-widget-content ui-corner-all" size="5" value="19"></dd>
+							<dt><label for="height">Height</label></dt>
+							<dd><input type="text" name="height" id="newMap-height"  class="text ui-widget-content ui-corner-all" size="5" value="14"></dd>
+						</dl>
+
+					</fieldset>
+					<fieldset class="row width50">
+						<legend>Tile Size</legend>
+						<dl>
+
+							<dt><label for="width">Width</label></dd>
+							<dd><input type="text" name="width" id="newMap-tilewidth" class="text ui-widget-content ui-corner-all" size="5" value="32"></dd>
+							<dt><label for="height">Height</label></dt>
+							<dd><input type="text" name="height" id="newMap-tileheight"  class="text ui-widget-content ui-corner-all" size="5" value="32"></dd>
+						</dl>
+
+
+
+
+
+					</fieldset>
+				</div>
 			</form>
 		</div>
 	<div class="dialog" id="editor-addTileset-dialog" title="Add a new Tileset">

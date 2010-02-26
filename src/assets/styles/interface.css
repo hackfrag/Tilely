@@ -327,22 +327,27 @@ input.text {
 /**
  * UI-Toolbar item
 */
-
 .ui-toolbaritem {
 	display:block;
 	float:right;
-	padding: 2px 10px;
+	padding: 0px 10px;
 	font-size:0.9em;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	border:1px solid #aaa;
-	margin-top:-2px;
-	background: -webkit-gradient(linear, left top, left bottom, from(#585f65), to(#41494f));
-	background: -moz-linear-gradient(top, #585f65, #41494f);
+	padding-top:3px;
+	-moz-border-radius:5px;
+	background:-moz-linear-gradient(center top , #EEE, #AAA) repeat scroll 0 0 transparent;
 	color:#fff;
-	border:1px solid #373d41;
-
+	border:1px solid #888;
+	margin-top:-4px;
+	padding-bottom:3px;
+	margin-right:5px;
 }
+.ui-toolbaritem:hover {
+	background:-moz-linear-gradient(center top , #FFF, #BBB) repeat scroll 0 0 transparent;
+}
+.ui-toolbaritem:active {
+	background:-moz-linear-gradient(center top , #AAA, #EEE) repeat scroll 0 0 transparent;
+}
+
 
 /**
  * Jquery UI Additions
@@ -580,4 +585,19 @@ div.cursor div.cursor-tile-inner2 {
 .ui-icon-redo {
 	 background: transparent url('../images/redo.png') no-repeat left top !important;
 }
+
+
+.container {
+	clear:both;
+	float:left;
+	margin:0 0 8px;
+	width:100%;
+}
+.row {
+	float:left;
+}
+.width50 {
+	width:50%;
+}
+
 
