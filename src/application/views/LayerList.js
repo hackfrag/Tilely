@@ -43,25 +43,6 @@ View.LayerList = new JS.Class(UIListView, {
 			layer	= this.datasource[index],
 			self	= this;
 
-	
-
-		label
-			.attr('type','text')
-			.val(layer.name)
-			.blur(function() {
-				
-				form.submit(formsubmit);
-			})
-			.focus();
-
-		form
-			.append(label)
-			.submit(formsubmit);
-		cell
-
-			.append(form)
-
-	
 		var formsubmit = function() {
 			self.notify('layerNameDidChanged', label.val(), index);
 			self.setEditIndex(-1);
@@ -69,6 +50,34 @@ View.LayerList = new JS.Class(UIListView, {
 			self.reload();
 			return false;
 		}
+	
+
+		label
+			.attr('type','text')
+			.val(layer.name)
+			.blur(function() {
+				
+				form.submit(function() {
+					formsubmit();
+					return false;
+
+				});
+				return ;
+			})
+			.focus();
+
+		form
+			.append(label)
+			.submit(function() {
+				formsubmit()
+				return false;
+			});
+		cell
+
+			.append(form)
+
+	
+		
 		return cell;
 	},
 

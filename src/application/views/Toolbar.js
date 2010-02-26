@@ -119,7 +119,17 @@ View.Toolbar = {
 		})
 
 
+		$('#toolbar-action-settings').button({
+			icons: {
+				primary: 'ui-icon-gear'
+			}
+		})
 
+		$('#toolbar-action-navigator').button({
+			icons: {
+				primary: 'ui-icon-image'
+			}
+		})
 
 		new UIUpload ({
 			type: /.*/,
