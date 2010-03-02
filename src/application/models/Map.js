@@ -7,7 +7,7 @@ var Map = new JS.Class(Application_Object, {
 
 	
 		this.init();
-
+	
 		this.version		= '1.0';
 		this.orientation	= 'orthogonal';
 		this.width			= width;
@@ -16,7 +16,7 @@ var Map = new JS.Class(Application_Object, {
 		this.tileheight		= tileheight;
 		this.layers			= [];
 		this.tilesets		= [];
-
+		
 		this.cache			= {
 			tileset : {},
 			image	: {}
@@ -59,6 +59,7 @@ var Map = new JS.Class(Application_Object, {
 			cache	= this.cache.image[tileset.name];
 	
 		if(!cache) {
+			
 			image.src = tileset.image;
 			this.cache.image[tileset.name] = image;
 		}

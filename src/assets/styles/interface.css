@@ -312,8 +312,10 @@ div.dialog {
 
 fieldset {
 	border:0 none;
-
 	padding:0;
+}
+fieldset legend {
+	font-weight:bold;
 }
 label, input {
 	display:block;

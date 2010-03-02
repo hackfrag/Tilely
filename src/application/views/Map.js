@@ -44,18 +44,19 @@ View.Map = new JS.Class(Application_Object, {
 		canvas = canvasTag.get(0).getContext("2d");
 		
 		canvas.clearRect(0,0,width, height)
-
+		
 		this.map.layers.forEach(function(layer, i) {
 
 			if(layer.visible) {
 				canvas.globalAlpha = layer.alpha;
 				layer.tiles.forEach(function(tile, i) {
 					if(tile.gid != 0) {
-
+						
 						position = self.map.getPositionForGID(tile.gid);
 						image	 = self.map.getTilesetImageForGID(tile.gid);
 						cords	 = self.map.indexToCords(i);
-
+						
+						
 						canvas.drawImage(image,
 								Math.abs(position.left),
 								Math.abs(position.top),
@@ -67,12 +68,14 @@ View.Map = new JS.Class(Application_Object, {
 								32
 							)
 						
+						
 					}
 				});
 			}
 
 			
 		});
+	
 
 		
 		if(this.grid) {

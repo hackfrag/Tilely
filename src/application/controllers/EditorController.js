@@ -42,25 +42,6 @@ var EditorController = new JS.Class(Application_Controller,{
 			this.post('editor/load', {'map' : map});
 		}
 
-		/*
-		 *
-		 var worker	= new  Worker("application/workers/json.js"),
-			$this	= this;
-
-		worker.onmessage = function(e){
-
-			if(e.data) {
-				var map = Map.load(e.data);
-				$this.post('editor/load', {'map' : map});
-			}
-
-		};
-
-		worker.postMessage({
-			action	: 'load',
-			param	: localStorage.map
-		});
-		 */
 	},
 	loadAction: function(){
 		this.map  = this.request.map;
@@ -104,7 +85,7 @@ var EditorController = new JS.Class(Application_Controller,{
 		/**
 		 * Autosaver
 		 */
-		setTimeout(function() {
+		setInterval(function() {
 			$this.route('editor/autosave');
 		}, 5000)
 		
@@ -200,16 +181,8 @@ var EditorController = new JS.Class(Application_Controller,{
 			.showGrid(this.request.showGrid)
 			.redraw();
 	},
-	autosaveAction: function() {
-		var $this = this;
-		
+	autosaveAction: function() {		
 		localStorage.setObject('map', this.map.encode());
-	
-		setTimeout(function() {
-			$this.route('editor/autosave');
-		}, 5000);
-		
-		
 	},
 	undoAction: function() {
 		this.undoManager.undo();
